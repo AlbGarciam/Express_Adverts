@@ -10,9 +10,6 @@ require('./models/users/user.js');
 
 
 var app = express();
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
 
 //Configure port
 app.listen(config.port, () => {
@@ -30,7 +27,6 @@ app.use(logger('combined', { stream: accessLogStream } ));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
 app.use("/api/user", require('./routes/api/users'))
 
