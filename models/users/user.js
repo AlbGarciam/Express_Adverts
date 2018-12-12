@@ -1,7 +1,7 @@
 "use strict";
 
-var mongoose = require("mongoose");
-var validations = require("./validations");
+const mongoose = require("mongoose");
+const validations = require("./validations");
 
 /**
  * User type definition

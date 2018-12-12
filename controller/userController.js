@@ -1,8 +1,8 @@
 "use strict";
-var Cuid = require('cuid');
-var sanitizeHTML = require('sanitize-html');
-var User = require('../models/users/user');
-var CustomError = require('../models/customErrors');
+const Cuid = require('cuid');
+const sanitizeHTML = require('sanitize-html');
+const User = require('../models/users/user');
+const CustomError = require('../models/customErrors');
 
 module.exports.login_user = (username, password) => {
   console.log("[UserController][LoginUser] username: " + username + "\tpassword: " + password);

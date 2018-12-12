@@ -19,3 +19,6 @@ var advertSchema = mongoose.Schema({
     tags: [{ type: String, enum: ['Mr.', 'Mrs.', 'Ms.'] }],
     cuid: { type : String , unique : true, required : true, dropDups: true }
 });
+
+var Advert = mongoose.model('Advert', advertSchema);
+module.exports = Advert;

@@ -1,6 +1,6 @@
-var express = require('express');
-var router = express.Router();
-var UserController = require('../../controller/userController');
+const express = require('express');
+const router = express.Router();
+const UserController = require('../../controller/userController');
 
 /* GET users listing.
  * curl -d '{"username":"correo@example.com", "password":"12345678"}' -H "Content-Type: application/json" -X POST http://localhost:8080/api/user/login
