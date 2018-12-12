@@ -30,12 +30,12 @@ var userSchema = mongoose.Schema({
 /**
    * Search the user in the database by username
    *
-   * @param {Object} username - Username of the user
+   * @param {string} username - Username of the user
    * @param {User~searchCallback} callback - The callback that handles the response.
    */
 userSchema.statics.search_by_username = (username, callback) => {
   console.info("[User][searchByUsername] Looking for username: "+username);
-  var query = User.findOne({username:username});
+  var query = User.findOne({username:username}).select('name password username cuid dateAdded -_id');
   query.exec(callback); // Esto es lo mismo que lo de arriba
 };
 
