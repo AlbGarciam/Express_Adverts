@@ -41,8 +41,9 @@ app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   if (isAPI(req)){
     res.json({
-      status: err.status || 500,
-      msg: err.message
+      status: err.code || 500,
+      msg: err.message,
+      reason: err.reason
     });
   } else {
     res.render('error');

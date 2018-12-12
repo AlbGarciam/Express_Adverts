@@ -24,14 +24,17 @@ module.exports.login_user = (username, password) => {
 
 module.exports.create_user = (name, password, username) => {
   return new Promise((resolve, reject) => {
-    if (!validateEntries(name, password, username))
-      reject(CustomError.WRONG_PARAMS);
     let user = createUser(name, password, username)
-    user.save((err, saved) => {
-      if (err)
-        reject( err.code === 11000 ? CustomError.USER_EXISTS : CustomError.BAD_REQUEST);
-      resolve(saved);
-    });
+    var error = user.validateSync();
+    if (error) {
+      reject(CustomError.WRONG_PARAMS);
+    } else {
+      user.save((err, saved) => {
+        if (err)
+          reject( err.code === 11000 ? CustomError.USER_EXISTS : CustomError.BAD_REQUEST);
+        resolve(saved);
+      });
+    }
   });
 };
 

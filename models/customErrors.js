@@ -1,8 +1,10 @@
 "use strict";
 
-function CustomError(errCode, msg) {
+function CustomError(errCode, msg, reason) {
   this.code = errCode;
   this.message = msg;
+  if (reason)
+    this.reason = reason;
 }
 
 // Generic
@@ -16,3 +18,8 @@ module.exports.USER_EXISTS = new CustomError(400, "User already exists");
 
 // Login errors
 module.exports.INVALID_CREDENTIALS = new CustomError(403, "Invalid credentials");
+
+// Validation errors 
+module.exports.VALIDATION_FAILED = (customMessage) => {
+  return new CustomError(400, "Wrong params", customMessage)
+}

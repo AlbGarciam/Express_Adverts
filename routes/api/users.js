@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const UserController = require('../../controller/userController');
+const { check, validationResult } = require('express-validator/check')
+const {VALIDATION_FAILED} = require('../../models/customErrors');
 
 /* GET users listing.
  * curl -d '{"username":"correo@example.com", "password":"12345678"}' -H "Content-Type: application/json" -X POST http://localhost:8080/api/user/login
@@ -18,11 +20,19 @@ router.post('/login', (req, res, next) => {
  * Creates a new user
  * curl -d '{"name":"Alberto", "password":"12345678", "username":"correo@example.com"}' -H "Content-Type: application/json" -X POST http://localhost:8080/api/user/create
  */
-router.post('/create', (req, res, next) => {
-  let body = req.body;
+router.post('/create', [
+  check('username').isEmail().withMessage("Username must be a message")
+], (req, res, next) => {
+  // Finds the validation errors in this request and wraps them in an object with handy functions
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return next(VALIDATION_FAILED(errors.array()[0].msg ))
+  }
+  
+  const body = req.body;
   var promise = UserController.create_user(body.name, body.password, body.username);
   promise.then((result) => {
-    res.json(result);
+    res.status(200).send('ok');
   }, (err) => {
     next(err);
   });
