@@ -21,5 +21,15 @@ var advertSchema = mongoose.Schema({
     cuid: { type : String , unique : true, required : true, dropDups: true }
 });
 
+advertSchema.statics.list = (filter, limit, skip, sort, callback) => {
+    var query = Advert.find(filter);
+    query.limit(limit);
+    query.skip(skip);
+    query.select("name sold price photo tags cuid -_id");
+    query.sort(sort);
+    query.exec(callback); 
+  };
+  
+
 var Advert = mongoose.model('Advert', advertSchema);
 module.exports = Advert;

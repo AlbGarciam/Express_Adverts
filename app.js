@@ -6,7 +6,8 @@ var logger = require('morgan');
 var config = require('./etc/config')
 var rfs    = require('rotating-file-stream');
 require('./database/dbConnection.js');
-require('./models/users/user.js');
+require('./models/users/user');
+require('./models/adverts/advert')
 
 var app = express();
 
@@ -29,7 +30,8 @@ app.use(cookieParser());
 // This will intercept all requests
 app.all('*', checkUser);
 
-app.use("/api/user", require('./routes/api/users'))
+app.use("/api/user", require('./routes/api/users'));
+app.use("/api/adverts", require('./routes/api/adverts'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

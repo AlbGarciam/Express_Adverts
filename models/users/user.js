@@ -20,6 +20,8 @@ var userSchema = mongoose.Schema({
   dateAdded: { type: 'Date', default: Date.now, required: true }
 });
 
+userSchema.index({username:1}, {unique: true});
+
 /**
  * This callback is displayed as part of the Requester class.
  * @callback User~searchCallback

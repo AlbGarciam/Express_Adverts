@@ -4,6 +4,7 @@ const Cuid = require('cuid');
 const sanitizeHTML = require('sanitize-html');
 const Advert = require('../models/adverts/advert');
 const CustomError = require('../models/customErrors');
+const { Price } = require('../models/adverts/price');
 
 /**
  * Inserts an advert in the database
@@ -33,6 +34,31 @@ module.exports.insert_advert = (name, sold, price, photo, tags) => {
     } );
 };
 
+module.exports.get_adverts = (id, tags, sold, name, price, sort, limit, skip) => {
+    var filter = {};
+    if ( id )
+        filter.cuid = id;
+    if (sold !== null) 
+        filter.sold = sold;
+    if ( name ) 
+        filter.name = new RegExp("^"+ name.toLowerCase(), "i");
+    if ( price !== null){
+        var obj = Price(price);
+        insert_price_filter(filter, obj.exact, obj.lower, obj.upper);
+    }
+    if ( tags !== null ) 
+        filter.tags = tags;
+    return new Promise( (resolve, reject) => {
+        Advert.list(filter, limit, skip, sort, (err, list) => {
+            if (err) {
+                console.log(err);
+                reject( CustomError.BAD_REQUEST );
+            }
+            resolve(list);
+        });
+    });
+};
+
 function create_advert(name, sold, price, photo, tags) {
     var _advert = new Advert();
     _advert.name = sanitizeHTML(name);
@@ -43,3 +69,18 @@ function create_advert(name, sold, price, photo, tags) {
     _advert.cuid = Cuid();
     return _advert;
 };
+
+function insert_price_filter(filter, price, lower, upper) {
+    if ( typeof price !== 'undefined' ) {
+        filter.price = price
+    } else if ( typeof lower !== 'undefined' || typeof upper !== 'undefined' ) {
+        var priceFilter = {};
+        if ( typeof lower !== 'undefined' ) {
+            price.$gte = lower;
+        } 
+        if ( typeof upper !== 'undefined' )  {
+            price.$lte = upper;
+        }
+        filter.price = priceFilter
+    }
+}
