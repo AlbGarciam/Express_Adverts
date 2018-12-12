@@ -8,7 +8,6 @@ var rfs    = require('rotating-file-stream');
 require('./database/dbConnection.js');
 require('./models/users/user.js');
 
-
 var app = express();
 
 //Configure port
@@ -23,10 +22,12 @@ var accessLogStream = rfs('access.log', {
   path: path.join(__dirname, 'log')
 });
 app.use(logger('combined', { stream: accessLogStream } ));
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+// This will intercept all requests
+app.all('*', checkUser);
 
 app.use("/api/user", require('./routes/api/users'))
 
@@ -38,8 +39,6 @@ app.use(function(req, res, next) {
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
   if (isAPI(req)){
     res.json({
       status: err.status || 500,
@@ -50,10 +49,19 @@ app.use(function(err, req, res, next) {
   }
 });
 
-
 function isAPI(req) {
   console.log(req.originalUrl);
   return req.originalUrl.indexOf('/api') === 0;
+}
+
+function checkUser(req, res, next) {
+  if ( req.path === '/api/user/login' || req.path === '/api/user/create') {
+    console.log("Allowing to access user");
+    next();
+    return;
+  }
+  console.log("Validating oauth");
+  next();
 }
 
 module.exports = app;

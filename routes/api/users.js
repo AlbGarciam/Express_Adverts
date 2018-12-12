@@ -3,7 +3,7 @@ var router = express.Router();
 var UserController = require('../../controller/userController');
 
 /* GET users listing.
-  curl -d '{"username":"correo@example.com", "password":"12345678"}' -H "Content-Type: application/json" -X POST http://localhost:8080/api/user/login
+ * curl -d '{"username":"correo@example.com", "password":"12345678"}' -H "Content-Type: application/json" -X POST http://localhost:8080/api/user/login
 */
 router.post('/login', (req, res, next) => {
   var promise = UserController.login_user(req.body.username, String(req.body.password));
@@ -14,10 +14,8 @@ router.post('/login', (req, res, next) => {
   });
 });
 
-
 /**
  * Creates a new user
- *
  * curl -d '{"name":"Alberto", "password":"12345678", "username":"correo@example.com"}' -H "Content-Type: application/json" -X POST http://localhost:8080/api/user/create
  */
 router.post('/create', (req, res, next) => {
