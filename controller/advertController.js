@@ -19,11 +19,14 @@ module.exports.insert_advert = (name, sold, price, photo, tags) => {
         var _advert = create_advert(name, sold, price, photo, tags);
         var error = _advert.validateSync();
         if (error) {
+            console.debug("[AdvertController][insert_advert] Not passed validation");
             reject(CustomError.WRONG_PARAMS);
         } else {
             _advert.save( (err, saved) => {
-                if (err)
+                if (err) {
+                    console.log(err);
                     reject( CustomError.WRONG_PARAMS );
+                }
                 resolve(saved);
             });
         }

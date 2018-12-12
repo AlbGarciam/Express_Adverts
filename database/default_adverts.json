@@ -1,0 +1,26 @@
+{
+    "adverts" : [
+        {      
+            "nombre": "Bicicleta",      
+            "venta": true,      
+            "precio": 230.15,      
+            "foto": "http://localhost:8080/images/anuncios/bici.jpg",      
+            "tags": [ "lifestyle", "motor"]    
+        },
+        {      
+            "nombre": "coche",      
+            "venta": false,      
+            "precio": 5000.15,      
+            "foto": "http://localhost:8080/images/anuncios/bici.jpg",      
+            "tags": [ "work", "motor"]    
+        },
+        {      
+            "nombre": "iphone X",      
+            "venta": true,      
+            "precio": 800.15,      
+            "foto": "http://localhost:8080/images/anuncios/bici.jpg",      
+            "tags": [ "mobile"]    
+        }
+        
+    ]
+}

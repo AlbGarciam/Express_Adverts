@@ -17,7 +17,7 @@ var advertSchema = mongoose.Schema({
     sold: { type: Boolean, required: true },
     price: { type: Number, required: true },
     photo: { type: String, required: true },
-    tags: [{ type: String, enum: ['Mr.', 'Mrs.', 'Ms.'] }],
+    tags: [{ type: String, enum: ["work", "lifestyle", "motor", "mobile"] }],
     cuid: { type : String , unique : true, required : true, dropDups: true }
 });
 
