@@ -47,9 +47,7 @@ app.use(function(err, req, res, next) {
       msg: err.message,
       reason: err.reason
     });
-  } else {
-    res.render('error');
-  }
+  } 
 });
 
 function isAPI(req) {
