@@ -15,12 +15,11 @@ const validations = require("./validations");
 var userSchema = mongoose.Schema({
   name: { type: String, required: true },
   password: { type: String, required: true },
-  username: { type : String , unique : true, required : true, dropDups: true },
+  username: { type : String , unique : true, required : true, dropDups: true, index: true },
   cuid : { type : String , unique : true, required : true, dropDups: true },
+  salt : { type : String, unique: true, required: true },
   dateAdded: { type: 'Date', default: Date.now, required: true }
 });
-
-userSchema.index({username:1}, {unique: true});
 
 /**
  * This callback is displayed as part of the Requester class.
@@ -37,7 +36,7 @@ userSchema.index({username:1}, {unique: true});
    */
 userSchema.statics.search_by_username = (username, callback) => {
   console.info("[User][searchByUsername] Looking for username: "+username);
-  var query = User.findOne({username:username}).select('name password username cuid dateAdded -_id');
+  var query = User.findOne({username:username}).select('name password username cuid dateAdded salt -_id');
   query.exec(callback); // Esto es lo mismo que lo de arriba
 };
 

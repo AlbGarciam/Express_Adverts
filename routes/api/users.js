@@ -21,7 +21,7 @@ router.post('/login', (req, res, next) => {
  * curl -d '{"name":"Alberto", "password":"12345678", "username":"correo@example.com"}' -H "Content-Type: application/json" -X POST http://localhost:8080/api/user/create
  */
 router.post('/create', [
-  check('username').isEmail().withMessage("Username must be a message")
+  check('username').isEmail().withMessage("Username must be an email")
 ], (req, res, next) => {
   // Finds the validation errors in this request and wraps them in an object with handy functions
   const errors = validationResult(req);
