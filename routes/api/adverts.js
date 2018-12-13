@@ -4,6 +4,9 @@ const AdvertController = require('../../controller/advertController');
 const { body, validationResult } = require('express-validator/check')
 const { VALIDATION_FAILED } = require('../../models/customErrors');
 
+/**
+ * curl --header "Authorization: 123" http://localhost:8080/api/adverts
+ */
 router.get('/', (req, res, next) => {
     var limit = parseInt(req.query.limit) || null;
     var skip = parseInt(req.query.skip) || null;

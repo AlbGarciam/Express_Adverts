@@ -23,3 +23,10 @@ module.exports.INVALID_CREDENTIALS = new CustomError(403, "Invalid credentials")
 module.exports.VALIDATION_FAILED = (customMessage) => {
   return new CustomError(400, "Wrong params", customMessage)
 }
+
+// JWT errors
+module.exports.JWT_ERROR = (customMessage) => {
+  return new CustomError(403, "JWT error", customMessage)
+};
+
+module.exports.INVALID_TOKEN = new CustomError(403, "Invalid token");

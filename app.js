@@ -8,6 +8,7 @@ var rfs    = require('rotating-file-stream');
 require('./database/dbConnection.js');
 require('./models/users/user');
 require('./models/adverts/advert')
+var JWTController = new require('./controller/jwtController');
 
 var app = express();
 
@@ -28,7 +29,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 // This will intercept all requests
-app.all('*', checkUser);
+app.all('*', checkToken);
 
 app.use("/api/user", require('./routes/api/users'));
 app.use("/api/adverts", require('./routes/api/adverts'));
@@ -55,14 +56,20 @@ function isAPI(req) {
   return req.originalUrl.indexOf('/api') === 0;
 }
 
-function checkUser(req, res, next) {
-  if ( req.path === '/api/user/login' || req.path === '/api/user/create') {
-    console.log("Allowing to access user");
-    next();
-    return;
+function checkToken(req, res, next) {
+  if ( req.path === '/api/user/create' ) { // Doesn't need validation
+    return next();
+  } else if ( req.path === '/api/user/login' ) {
+    return next();
+  } else { // Rest of methods
+    var token = req.header("Authorization");
+    JWTController.decrypt_token(token).then((result) => {
+      next();
+    }, (err) => {
+      next(err);
+    });
   }
-  console.log("Validating oauth");
-  next();
+  
 }
 
 module.exports = app;

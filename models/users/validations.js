@@ -30,7 +30,6 @@ module.exports.generate_salt = () => {
  * @returns {string} hashed password
  */
 module.exports.hash_password = (password, salt) => {
-  console.info("Salt => " + salt);
   var hash = Crypto.createHmac('sha512', salt); /** Hashing algorithm sha512 */
   hash.update(password);
   return hash.digest('hex');

@@ -1,15 +1,19 @@
 const express = require('express');
 const router = express.Router();
 const UserController = require('../../controller/userController');
+const JWTController = new require('../../controller/jwtController');
 const { check, validationResult } = require('express-validator/check')
 const {VALIDATION_FAILED} = require('../../models/customErrors');
 
 /* GET users listing.
- * curl -d '{"username":"correo@example.com", "password":"12345678"}' -H "Content-Type: application/json" -X POST http://localhost:8080/api/user/login
+ * curl -d '{"username":"correo@example.com", "password":"12345678"}' -H "Content-Type: application/json" -i -X POST http://localhost:8080/api/user/login
 */
 router.post('/login', (req, res, next) => {
   var promise = UserController.login_user(req.body.username, String(req.body.password));
   promise.then((result) => {
+    var token = JWTController.generate_token({username: result.username});
+    console.log("token generated: "+token);
+    res.setHeader("Authorization", token);
     res.json(result);
   }, (err) => {
     next(err);
