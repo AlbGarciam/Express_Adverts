@@ -28,5 +28,4 @@ module.exports.VALIDATION_FAILED = (customMessage) => {
 module.exports.JWT_ERROR = (customMessage) => {
   return new CustomError(403, "JWT error", customMessage)
 };
-
 module.exports.INVALID_TOKEN = new CustomError(403, "Invalid token");

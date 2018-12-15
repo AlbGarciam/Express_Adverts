@@ -5,6 +5,12 @@ const User = require('../models/users/user');
 const CustomError = require('../models/customErrors');
 const Validations = require('../models/users/validations')
 
+/**
+ * Creates a user model
+ * @param {string} username username of the user 
+ * @param {string} password password of the user
+ * @returns {Promise} With the user model if proceeds
+ */
 module.exports.login_user = (username, password) => {
   console.log("[UserController][LoginUser] username: " + username + "\tpassword: " + password);
   return new Promise((resolve, reject) => {
@@ -28,6 +34,13 @@ module.exports.login_user = (username, password) => {
   });
 };
 
+/**
+ * Creates a user from a given name, password and username
+ * @param {string} name 
+ * @param {string} password 
+ * @param {string} username 
+ * @returns {Promise} 
+ */
 module.exports.create_user = (name, password, username) => {
   return new Promise((resolve, reject) => {
     const user = createUser(name, password, username);
@@ -44,6 +57,13 @@ module.exports.create_user = (name, password, username) => {
   });
 };
 
+/**
+ * Creates a user model
+ * @param {string} name 
+ * @param {string} password 
+ * @param {string} username 
+ * @returns {Object} User
+ */
 function createUser(name, password, username) {
   var _user = new User();
   _user.name = sanitizeHTML(name);

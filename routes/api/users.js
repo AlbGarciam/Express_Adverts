@@ -1,3 +1,5 @@
+"use strict";
+
 const express = require('express');
 const router = express.Router();
 const UserController = require('../../controller/userController');
@@ -9,10 +11,11 @@ const {VALIDATION_FAILED} = require('../../models/customErrors');
  * curl -d '{"username":"correo@example.com", "password":"12345678"}' -H "Content-Type: application/json" -i -X POST http://localhost:8080/api/user/login
 */
 router.post('/login', (req, res, next) => {
-  var promise = UserController.login_user(req.body.username, String(req.body.password));
+  var body = req.body;
+  console.info(body);
+  var promise = UserController.login_user(body.username, String(body.password));
   promise.then((result) => {
-    var token = JWTController.generate_token({username: result.username});
-    console.log("token generated: "+token);
+    var token = JWTController.generate_token(result.username);
     res.setHeader("Authorization", token);
     res.json(result);
   }, (err) => {

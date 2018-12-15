@@ -4,7 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var config = require('./etc/config')
-var rfs    = require('rotating-file-stream');
+var rfs = require('rotating-file-stream');
 require('./database/dbConnection.js');
 require('./models/users/user');
 require('./models/adverts/advert')
@@ -23,32 +23,33 @@ var accessLogStream = rfs('access.log', {
   interval: '1d', // rotate daily
   path: path.join(__dirname, 'log')
 });
-app.use(logger('combined', { stream: accessLogStream } ));
+app.use(logger('combined', { stream: accessLogStream }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 // This will intercept all requests
-app.all('*', checkToken);
+//app.all('*', checkToken);
+app.all('*', on_request_received);
 
 app.use("/api/user", require('./routes/api/users'));
 app.use("/api/adverts", require('./routes/api/adverts'));
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
-  if (isAPI(req)){
+  if (isAPI(req)) {
     res.json({
       status: err.code || 500,
       msg: err.message,
       reason: err.reason
     });
-  } 
+  }
 });
 
 function isAPI(req) {
@@ -56,20 +57,22 @@ function isAPI(req) {
   return req.originalUrl.indexOf('/api') === 0;
 }
 
-function checkToken(req, res, next) {
-  if ( req.path === '/api/user/create' ) { // Doesn't need validation
-    return next();
-  } else if ( req.path === '/api/user/login' ) {
-    return next();
-  } else { // Rest of methods
+function on_request_received(req, res, next) {
+  if (is_secured(req.path)) {
     var token = req.header("Authorization");
-    JWTController.decrypt_token(token).then((result) => {
+    JWTController.is_valid_token(token).then((newToken) => {
+      res.setHeader("Authorization", token);
       next();
     }, (err) => {
       next(err);
     });
+  } else {
+    next();
   }
-  
-}
+};
+
+function is_secured(path) {
+  return !( path === "/api/user/create" || path === "/api/user/login" )
+};
 
 module.exports = app;
