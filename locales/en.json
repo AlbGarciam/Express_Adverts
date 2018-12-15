@@ -6,5 +6,6 @@
 	"USER_EXISTS": "User already exists",
 	"INVALID_CREDENTIALS": "Invalid credentials",
 	"JWT_ERROR": "JSON web token error",
-	"INVALID_TOKEN": "Invalid token"
+	"INVALID_TOKEN": "Invalid token",
+	"tags.join is not a function": "tags.join is not a function"
 }

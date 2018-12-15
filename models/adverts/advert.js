@@ -9,7 +9,7 @@ var mongoose = require("mongoose");
  * @property {boolean} sold determines if article is sold or not
  * @property {number} price price of the article
  * @property {string} photo photo url of the article
- * @property {Array.string} tags tags of the article
+ * @property {Array.String} tags tags of the article
  * @property {string} cuid unique identifier of the article
  */
 var advertSchema = mongoose.Schema({

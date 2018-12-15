@@ -1,16 +1,3 @@
-# 
-
-
-
-## Usage
-1. Start mongo at selected port
-  ```
-    mongod --dbpath ./database/db --port 2703
-  ```
-2. Start node server 
-  ```
-  npm run start
-  ```
   
 # Express_Adverts
 
@@ -23,8 +10,9 @@ These instructions will get you a copy of the project up and running on your loc
 ### Prerequisites
 
 What things you need to install the software and how to install them
-* [nodejs](https://nodejs.org/es)
-* [mongoDB](https://docs.mongodb.com/manual/installation)
+* [nodejs](https://nodejs.org/es) - v10.14.1
+* [mongoDB](https://docs.mongodb.com/manual/installation) - v4.0.1
+
 
 ### Installing
 
@@ -42,7 +30,7 @@ npm run fillDatabase
 
 ## Authors
 
-* **Alberto Garcia** - *Initial work* - [BertoGmFc](https://github.com/BertoGmFc)
+* **Alberto Garcia** - *Initial work* - [AlbGarciam](https://github.com/AlbGarciam)
 
 ## License
 
