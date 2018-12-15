@@ -11,6 +11,15 @@ require('./models/adverts/advert')
 var JWTController = new require('./controller/jwtController');
 
 var app = express();
+var i18n = require("i18n");
+
+i18n.configure({
+  locales:['en', 'es'],
+  directory: __dirname + '/locales',
+  register: global
+});
+
+app.use(i18n.init);
 
 //Configure port
 app.listen(config.port, () => {
@@ -44,11 +53,18 @@ app.use(function (req, res, next) {
 app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   if (isAPI(req)) {
-    res.json({
-      status: err.code || 500,
-      msg: err.message,
-      reason: err.reason
-    });
+    var language = req.header("Accept-Language");
+    if ( language ) {
+      req.setLocale("es")
+    }
+    var response = {
+      status: err.code || 500
+    };
+    response.msg = __(err.message);
+    if (err.reason) {
+      response.reason = err.reason
+    }
+    res.json(response);
   }
 });
 

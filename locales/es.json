@@ -1,0 +1,10 @@
+{
+    "WRONG_PARAMS":"Parámetros incorrectos",
+    "BAD_REQUEST":"Petición incorrecta",
+    "UNAUTHORIZED":"No autorizado",
+    "NOT_FOUND":"No encontrado",
+    "USER_EXISTS":"El usuario ya existe",
+    "INVALID_CREDENTIALS":"Credenciales inválidas",
+    "JWT_ERROR":"Error en JSON web token",
+    "INVALID_TOKEN":"Token inválido"
+}

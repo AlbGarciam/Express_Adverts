@@ -1,0 +1,10 @@
+{
+	"WRONG_PARAMS": "Wrong params",
+	"BAD_REQUEST": "Bad request",
+	"UNAUTHORIZED": "Unauthorized",
+	"NOT_FOUND": "Not found",
+	"USER_EXISTS": "User already exists",
+	"INVALID_CREDENTIALS": "Invalid credentials",
+	"JWT_ERROR": "JSON web token error",
+	"INVALID_TOKEN": "Invalid token"
+}
