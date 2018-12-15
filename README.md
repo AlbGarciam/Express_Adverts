@@ -1,5 +1,5 @@
   
-# Express_Adverts
+# NodePop
 
 This is a sample node.js project which connects with a mongoDB database. It uses mongoose to connect the database and the server.
 

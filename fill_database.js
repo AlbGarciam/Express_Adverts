@@ -47,3 +47,4 @@ function load_ads() {
 console.log("[fill_database] Starting filling database");
 load_users();
 load_ads();
+console.log("[fill_database] Finished");
