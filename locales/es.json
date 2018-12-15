@@ -6,5 +6,11 @@
     "USER_EXISTS":"El usuario ya existe",
     "INVALID_CREDENTIALS":"Credenciales inválidas",
     "JWT_ERROR":"Error en JSON web token",
-    "INVALID_TOKEN":"Token inválido"
+    "INVALID_TOKEN":"Token inválido",
+    "USER_IS_EMAIL": "User debe ser un email",
+	"EMPTY_NAME":"Name no puede estar vacío",
+	"PRICE_NUMERIC":"Price tiene que ser numérico",
+	"SOLD_BOOL": "Sold tiene que ser un booleano",
+	"PHOTO_URL": "Photo debe ser una URL válida",
+	"TAGS_ARRAY": "Tags debe ser un array"
 }

@@ -44,7 +44,7 @@ router.post('/login', (req, res, next) => {
  * @bodyparam {String} Name Name of the user
  */
 router.post('/create', [
-  check('username').isEmail().withMessage('Username must be an email'),
+  check('username').isEmail().withMessage('USER_IS_EMAIL'),
 ], (req, res, next) => {
   // Finds the validation errors in this request and wraps them in an object with handy functions
   const errors = validationResult(req);

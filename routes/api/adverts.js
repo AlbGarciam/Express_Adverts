@@ -81,11 +81,11 @@ router.get('/', (req, res, next) => {
  * @bodyparam {String} photo URL of the associated image
  */
 router.post('/create', [
-  body('name').not().isEmpty().withMessage('name must not be empty'),
-  body('price').isNumeric().withMessage('price must be numeric'),
-  body('sold').isBoolean().withMessage('sold must be boolean'),
-  body('photo').isURL().withMessage('photo must be an url'),
-  body('tags').isArray().withMessage('tags must be an array'),
+  body('name').not().isEmpty().withMessage('EMPTY_NAME'),
+  body('price').isNumeric().withMessage('PRICE_NUMERIC'),
+  body('sold').isBoolean().withMessage('SOLD_BOOL'),
+  body('photo').isURL().withMessage('PHOTO_URL'),
+  body('tags').isArray().withMessage('TAGS_ARRAY'),
 ], (req, res, next) => {
   // Finds the validation errors in this request and wraps them in an object with handy functions
   const errors = validationResult(req);

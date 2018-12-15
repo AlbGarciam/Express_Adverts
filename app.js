@@ -85,7 +85,7 @@ app.use((err, req, res, next) => {
     };
     response.msg = __(err.message);
     if (err.reason) {
-      response.reason = err.reason;
+      response.reason = __(err.reason);
     }
     res.json(response);
   }
