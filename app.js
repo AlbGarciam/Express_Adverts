@@ -36,6 +36,7 @@ app.use(logger('combined', { stream: accessLogStream }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(express.static(path.join(__dirname, '/public')));
 
 // This will intercept all requests
 //app.all('*', checkToken);
