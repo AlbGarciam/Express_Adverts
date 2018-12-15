@@ -15,9 +15,9 @@ router.get('/', (req, res, next) => {
     var sort = req.query.sort || null;
     var id = req.query.id || null;
     var tags = req.query.tags || null;
-    var sold = req.query.venta || null;
-    var name = req.query.nombre || null;
-    var price = req.query.precio || null;
+    var sold = req.query.sold || null;
+    var name = req.query.name || null;
+    var price = req.query.price || null;
 
     var promise = AdvertController.get_adverts(id, tags, sold, name, price,  sort, limit, skip);
     promise.then((result) => {
