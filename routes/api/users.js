@@ -39,7 +39,7 @@ router.post('/create', [
   const body = req.body;
   var promise = UserController.create_user(body.name, body.password, body.username);
   promise.then((result) => {
-    res.status(200).send('ok');
+    res.status(200).send({message:'ok'});
   }, (err) => {
     next(err);
   });
