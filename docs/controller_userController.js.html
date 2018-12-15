@@ -26,12 +26,13 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>"use strict";
+            <pre class="prettyprint source linenums"><code>
+
 const Cuid = require('cuid');
 const sanitizeHTML = require('sanitize-html');
 const User = require('../models/users/user');
 const CustomError = require('../models/customErrors');
-const Validations = require('../models/users/validations')
+const Validations = require('../models/users/validations');
 
 /**
  * This module is in charge of communicate with User database in mongodb
@@ -40,71 +41,66 @@ const Validations = require('../models/users/validations')
 
 /**
  * Creates a user model
- * @param {string} username username of the user 
+ * @param {string} username username of the user
  * @param {string} password password of the user
  * @returns {Promise} With the user model if proceeds
  */
-module.exports.login_user = (username, password) => {
-  return new Promise((resolve, reject) => {
-    if ( !username || !password ) {
-      reject(CustomError.BAD_REQUEST);
-    }
-    User.search_by_username(username, (err, user) => {
-      if ( err ){
-        reject(CustomError.NOT_FOUND);
-      } else if ( user &amp;&amp; Validations.validate_password(user.salt, password, user.password)) {
-        resolve({
-          username: user.username,
-          name: user.name,
-          date: user.date,
-          id: user.cuid
-        });
-      } else {
-        reject(CustomError.INVALID_CREDENTIALS);
-      }
-    });
-  });
-};
-
-/**
- * Creates a user from a given name, password and username
- * @param {string} name 
- * @param {string} password 
- * @param {string} username 
- * @returns {Promise} 
- */
-module.exports.create_user = (name, password, username) => {
-  return new Promise((resolve, reject) => {
-    const user = createUser(name, password, username);
-    var error = user.validateSync();
-    if (error) {
-      reject(CustomError.WRONG_PARAMS);
-    } else {
-      user.save((err, saved) => {
-        if (err)
-          reject( err.code === 11000 ? CustomError.USER_EXISTS : CustomError.BAD_REQUEST);
-        resolve(saved);
+module.exports.login_user = (username, password) => new Promise((resolve, reject) => {
+  if (!username || !password) {
+    reject(CustomError.BAD_REQUEST);
+  }
+  User.search_by_username(username, (err, user) => {
+    if (err) {
+      reject(CustomError.NOT_FOUND);
+    } else if (user &amp;&amp; Validations.validate_password(user.salt, password, user.password)) {
+      resolve({
+        username: user.username,
+        name: user.name,
+        date: user.date,
+        id: user.cuid,
       });
+    } else {
+      reject(CustomError.INVALID_CREDENTIALS);
     }
   });
-};
+});
 
 /**
  * Creates a user model
- * @param {string} name 
- * @param {string} password 
- * @param {string} username 
+ * @param {string} name
+ * @param {string} password
+ * @param {string} username
  * @returns {Object} User
  */
 function createUser(name, password, username) {
-  var _user = new User();
-  _user.name = sanitizeHTML(name);
-  _user.salt = Validations.generate_salt();
-  _user.password = Validations.hash_password(password, _user.salt);
-  _user.username = sanitizeHTML(username);
-  _user.cuid = Cuid();
-  return _user;
-};
+  const user = new User();
+  user.name = sanitizeHTML(name);
+  user.salt = Validations.generate_salt();
+  user.password = Validations.hash_password(password, user.salt);
+  user.username = sanitizeHTML(username);
+  user.cuid = Cuid();
+  return user;
+}
+
+/**
+ * Creates a user from a given name, password and username
+ * @param {string} name
+ * @param {string} password
+ * @param {string} username
+ * @returns {Promise}
+ */
+module.exports.create_user = (name, password, username) => new Promise((resolve, reject) => {
+  const user = createUser(name, password, username);
+  const error = user.validateSync();
+  if (error) {
+    reject(CustomError.WRONG_PARAMS);
+  } else {
+    user.save((err, saved) => {
+      if (err) reject(err.code === 11000 ? CustomError.USER_EXISTS : CustomError.BAD_REQUEST);
+      resolve(saved);
+    });
+  }
+});
 </code></pre>
         </article>
     </section>
@@ -115,13 +111,13 @@ function createUser(name, password, username) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-AdvertController.html">AdvertController</a></li><li><a href="module-JWTController.html">JWTController</a></li><li><a href="module-User_router.html">User_router</a></li><li><a href="module-UserController.html">UserController</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-AdvertController.html">AdvertController</a></li><li><a href="module-JWTController.html">JWTController</a></li><li><a href="module-User_router.html">User_router</a></li><li><a href="module-UserController.html">UserController</a></li></ul><h3>Global</h3><ul><li><a href="global.html#generate_salt">generate_salt</a></li><li><a href="global.html#hash_password">hash_password</a></li><li><a href="global.html#validate_password">validate_password</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Dec 15 2018 14:25:45 GMT+0100 (CET)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Dec 15 2018 17:00:01 GMT+0100 (CET)
 </footer>
 
 <script> prettyPrint(); </script>

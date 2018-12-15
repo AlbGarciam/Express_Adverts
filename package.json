@@ -1,6 +1,6 @@
 {
   "name": "express-adverts",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "predb": "rm -rf ./database/db && mkdir ./database/db",
@@ -23,6 +23,13 @@
     "sanitize-html": "^1.19.1"
   },
   "devDependencies": {
+    "eslint": "^5.10.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^8.0.0",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0",
     "jsdoc": "^3.5.5",
     "jsdoc-route-plugin": "^0.1.0"
   }

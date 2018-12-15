@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: models/adverts/advert.js</title>
+    <title>JSDoc: Source: models/users/validations.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: models/adverts/advert.js</h1>
+    <h1 class="page-title">Source: models/users/validations.js</h1>
 
     
 
@@ -28,41 +28,38 @@
         <article>
             <pre class="prettyprint source linenums"><code>
 
-const mongoose = require('mongoose');
+const Crypto = require('crypto');
 
-/**
- * Advert model definition
- * @typedef {Object} Advert
- * @property {string} name name of the article
- * @property {boolean} sold determines if article is sold or not
- * @property {number} price price of the article
- * @property {string} photo photo url of the article
- * @property {Array.String} tags tags of the article
- * @property {string} cuid unique identifier of the article
+/** *
+ * This method validates if password matches with the hash
+ *
+ * @param {string} salt salt of user
+ * @param {string} password clear password
+ * @param {string} hash hashed password
+ * @returns {boolean} If password + salt matches with stored password
  */
-const advertSchema = mongoose.Schema({
-  name: { type: String, required: true },
-  sold: { type: Boolean, required: true },
-  price: { type: Number, required: true },
-  photo: { type: String, required: true },
-  tags: [{ type: String, enum: ['work', 'lifestyle', 'motor', 'mobile'] }],
-  cuid: {
-    type: String, unique: true, required: true, dropDups: true,
-  },
-});
-
-
-advertSchema.statics.list = (filter, limit, skip, sort, callback) => {
-  const query = Advert.find(filter);
-  query.limit(limit);
-  query.skip(skip);
-  query.select('name sold price photo tags cuid -_id');
-  query.sort(sort);
-  query.exec(callback);
+module.exports.validate_password = (salt, password, hash) => {
+  const hashed = this.hash_password(password, salt);
+  return hashed === hash;
 };
 
-const Advert = mongoose.model('Advert', advertSchema);
-module.exports = Advert;
+/** *
+ * This method generates a recure salt
+ * @returns {string} secured salt
+ */
+module.exports.generate_salt = () => Crypto.randomBytes(256).toString('hex');
+
+/** *
+ * This method generates a secured hash from a password and a salt
+ * @param {string} password password to be hashed
+ * @param {string} salt secured random string
+ * @returns {string} hashed password
+ */
+module.exports.hash_password = (password, salt) => {
+  const hash = Crypto.createHmac('sha512', salt); /** Hashing algorithm sha512 */
+  hash.update(password);
+  return hash.digest('hex');
+};
 </code></pre>
         </article>
     </section>

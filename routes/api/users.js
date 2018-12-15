@@ -1,11 +1,11 @@
-"use strict";
-
 const express = require('express');
+const { check, validationResult } = require('express-validator/check');
+
 const router = express.Router();
 const UserController = require('../../controller/userController');
-const JWTController = new require('../../controller/jwtController');
-const { check, validationResult } = require('express-validator/check')
-const {VALIDATION_FAILED} = require('../../models/customErrors');
+
+const JWTController = require('../../controller/jwtController');
+const { VALIDATION_FAILED } = require('../../models/customErrors');
 
 /**
  * This module is in charge of communicate with Advert database in mongodb
@@ -22,12 +22,10 @@ const {VALIDATION_FAILED} = require('../../models/customErrors');
  * @bodyparam {String} Password Password of the user
  */
 router.post('/login', (req, res, next) => {
-  var body = req.body;
-  console.info(body);
-  var promise = UserController.login_user(body.username, String(body.password));
+  const promise = UserController.login_user(req.body.username, String(req.body.password));
   promise.then((result) => {
-    var token = JWTController.generate_token(result.username);
-    res.setHeader("Authorization", token);
+    const token = JWTController.generateToken(result.username);
+    res.setHeader('Authorization', token);
     res.json(result);
   }, (err) => {
     next(err);
@@ -37,7 +35,7 @@ router.post('/login', (req, res, next) => {
 /**
  * Creates a new user
  * Method that signs in the user
- * <p>curl -d '{"name":"Alberto", "password":"12345678", "username":"correo@example.com"}' 
+ * <p>curl -d '{"name":"Alberto", "password":"12345678", "username":"correo@example.com"}'
  *    -H "Content-Type: application/json" -X POST http://localhost:8080/api/user/create</p>
  * @name Create user
  * @route {POST} /api/user/create
@@ -46,21 +44,17 @@ router.post('/login', (req, res, next) => {
  * @bodyparam {String} Name Name of the user
  */
 router.post('/create', [
-  check('username').isEmail().withMessage("Username must be an email")
+  check('username').isEmail().withMessage('Username must be an email'),
 ], (req, res, next) => {
   // Finds the validation errors in this request and wraps them in an object with handy functions
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return next(VALIDATION_FAILED(errors.array()[0].msg ))
+    return next(VALIDATION_FAILED(errors.array()[0].msg));
   }
-  
-  const body = req.body;
-  var promise = UserController.create_user(body.name, body.password, body.username);
-  promise.then((result) => {
-    res.status(200).send({message:'ok'});
-  }, (err) => {
-    next(err);
-  });
+  const promise = UserController.create_user(req.body.name, req.body.password, req.body.username);
+  promise.then(() => {
+    res.status(200).send({ message: 'ok' });
+  }, (err) => { next(err); });
 });
 
 module.exports = router;

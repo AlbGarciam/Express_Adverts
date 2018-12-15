@@ -30,7 +30,7 @@ function load_ads() {
         } else {
             var obj = JSON.parse(data);
             obj.adverts.forEach(element => {
-                advertController.insert_advert(element.nombre, element.venta, element.precio, element.foto, element.tags).then((result) => {
+                advertController.insertAdvert(element.nombre, element.venta, element.precio, element.foto, element.tags).then((result) => {
                     console.log("[fill_database][load_ads] Ad loaded: " 
                                             + JSON.stringify(element));
                 }, (err) => {

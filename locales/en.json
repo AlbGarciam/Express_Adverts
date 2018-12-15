@@ -7,5 +7,10 @@
 	"INVALID_CREDENTIALS": "Invalid credentials",
 	"JWT_ERROR": "JSON web token error",
 	"INVALID_TOKEN": "Invalid token",
-	"tags.join is not a function": "tags.join is not a function"
+	"tags.join is not a function": "tags.join is not a function",
+	"User.search_by_username is not a function": "User.search_by_username is not a function",
+	"Cannot read property 'exact' of undefined": "Cannot read property 'exact' of undefined",
+	"Price is not a constructor": "Price is not a constructor",
+	"Cannot set property '$gte' of null": "Cannot set property '$gte' of null",
+	"Assignment to constant variable.": "Assignment to constant variable."
 }
