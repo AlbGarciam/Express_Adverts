@@ -12,7 +12,6 @@ const Validations = require('../models/users/validations')
  * @returns {Promise} With the user model if proceeds
  */
 module.exports.login_user = (username, password) => {
-  console.log("[UserController][LoginUser] username: " + username + "\tpassword: " + password);
   return new Promise((resolve, reject) => {
     if ( !username || !password ) {
       reject(CustomError.BAD_REQUEST);

@@ -1,4 +1,3 @@
-var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
@@ -9,6 +8,7 @@ require('./database/dbConnection.js');
 require('./models/users/user');
 require('./models/adverts/advert')
 var JWTController = new require('./controller/jwtController');
+var CustomErrors = require('./models/customErrors');
 
 var app = express();
 var i18n = require("i18n");
@@ -47,7 +47,7 @@ app.use("/api/adverts", require('./routes/api/adverts'));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-  next(createError(404));
+  next(CustomErrors.NOT_FOUND);
 });
 
 // error handler
@@ -70,7 +70,6 @@ app.use(function (err, req, res, next) {
 });
 
 function isAPI(req) {
-  console.log(req.originalUrl);
   return req.originalUrl.indexOf('/api') === 0;
 }
 

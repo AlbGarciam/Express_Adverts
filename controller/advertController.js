@@ -25,7 +25,7 @@ module.exports.insert_advert = (name, sold, price, photo, tags) => {
         } else {
             _advert.save( (err, saved) => {
                 if (err) {
-                    console.log(err);
+                    console.error(err);
                     reject( CustomError.WRONG_PARAMS );
                 }
                 resolve(saved);
