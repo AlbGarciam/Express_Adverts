@@ -20,15 +20,17 @@ function isSecured(requestedpath) {
   return !(requestedpath === '/api/user/create' || requestedpath === '/api/user/login');
 }
 
-function onRequestReceived(req, res, next) {
+async function onRequestReceived(req, res, next) {
   if (isSecured(req.path)) {
     const token = req.header('Authorization');
-    JWTController.isValidToken(token).then((newToken) => {
+    try {
+      const newToken = await JWTController.isValidToken(token);
       res.setHeader('Authorization', newToken);
       next();
-    }, (err) => {
+    } catch (err) {
       next(err);
-    });
+      return;
+    }
   } else {
     next();
   }

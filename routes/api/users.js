@@ -21,15 +21,16 @@ const { VALIDATION_FAILED } = require('../../models/customErrors');
  * @bodyparam {String} Username Username of the user
  * @bodyparam {String} Password Password of the user
  */
-router.post('/login', (req, res, next) => {
-  const promise = UserController.login_user(req.body.username, String(req.body.password));
-  promise.then((result) => {
+router.post('/login', async (req, res, next) => {
+  try {
+    const result = await UserController.login_user(req.body.username, String(req.body.password));
     const token = JWTController.generateToken(result.username);
     res.setHeader('Authorization', token);
-    res.json(result);
-  }, (err) => {
+    res.status(200).json(result);
+  } catch (err) {
     next(err);
-  });
+    return;
+  }
 });
 
 /**
@@ -45,16 +46,19 @@ router.post('/login', (req, res, next) => {
  */
 router.post('/create', [
   check('username').isEmail().withMessage('USER_IS_EMAIL'),
-], (req, res, next) => {
+], async (req, res, next) => {
   // Finds the validation errors in this request and wraps them in an object with handy functions
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(VALIDATION_FAILED(errors.array()[0].msg));
   }
-  const promise = UserController.create_user(req.body.name, req.body.password, req.body.username);
-  promise.then(() => {
+  try {
+    await UserController.create_user(req.body.name, req.body.password, req.body.username);
     res.status(200).send({ message: 'ok' });
-  }, (err) => { next(err); });
+  } catch (err) {
+    next(err);
+    return;
+  }
 });
 
 module.exports = router;
