@@ -6,7 +6,7 @@ module.exports = {
     mongoDB: "Express_Adverts",
     jwt: {
         signOptions : {
-            expiresIn:  "50s",
+            expiresIn:  "300s",
             algorithm:  "RS256"
         }
     }
