@@ -31,8 +31,8 @@ const { VALIDATION_FAILED } = require('../../models/customErrors');
  * @queryparam {String | Number} price Price to be filtered
  */
 router.get('/', [
-  check('limit').isNumeric().withMessage('LIMIT_NUMERIC'),
-  check('skip').isNumeric().withMessage('SKIP_NUMERIC'),
+  check('limit').optional().isNumeric().withMessage('LIMIT_NUMERIC'),
+  check('skip').optional().isNumeric().withMessage('SKIP_NUMERIC'),
 ] , async (req, res, next) => {
   // Finds the validation errors in this request and wraps them in an object with handy functions
   const errors = validationResult(req);

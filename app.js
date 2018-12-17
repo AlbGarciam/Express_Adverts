@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
@@ -10,7 +11,6 @@ const JWTController = new require('./controller/jwtController');
 require('./database/dbConnection.js');
 require('./models/users/user');
 require('./models/adverts/advert');
-const config = require('./etc/config');
 
 function isAPI(req) {
   return req.originalUrl.indexOf('/api') === 0;
@@ -46,8 +46,8 @@ i18n.configure({
 app.use(i18n.init);
 
 // Configure port
-app.listen(config.port, () => {
-  console.info(`Server is running at: ${config.port}`);
+app.listen(process.env.SERVER_PORT, () => {
+  console.info(`Server is running at: ${process.env.SERVER_PORT}`);
 });
 
 // Configure logger

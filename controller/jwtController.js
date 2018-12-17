@@ -1,8 +1,5 @@
-
-
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
-const config = require('../etc/config').jwt;
 const { JWT_ERROR, INVALID_TOKEN, MISSING_TOKEN } = require('../models/customErrors');
 const User = require('../models/users/user');
 const CustomErrors = require('../models/customErrors');
@@ -96,6 +93,9 @@ module.exports.generateToken = (username) => {
   };
   const token = jwt.sign({
     data: sessionData,
-  }, secretKey, config.signOptions);
+  }, secretKey, {
+    expiresIn: process.env.JWT_TTL,
+    algorithm: process.env.JWT_ALGORITHM
+  });
   return token;
 };

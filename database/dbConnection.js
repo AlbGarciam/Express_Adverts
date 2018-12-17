@@ -1,7 +1,6 @@
 
 
 const mongoose = require('mongoose');
-const config = require('../etc/config');
 
 mongoose.connection.on('error', (err) => {
   console.error(`Mongo connection failed \n message: ${err.message}`);
@@ -12,5 +11,5 @@ mongoose.connection.once('open', () => {
   console.info('Mongo connection successfully stablished.');
 });
 
-mongoose.connect(`mongodb://${config.mongoPath}:${config.mongoPort}/${config.mongoDB}`,
+mongoose.connect(`mongodb://${process.env.MONGO_PATH}:${process.env.MONGO_PORT}/${process.env.MONGO_DATABASE}`,
   { useCreateIndex: true, useNewUrlParser: true });
