@@ -12,5 +12,8 @@
 	"PRICE_NUMERIC":"Price tiene que ser numérico",
 	"SOLD_BOOL": "Sold tiene que ser un booleano",
 	"PHOTO_URL": "Photo debe ser una URL válida",
-	"TAGS_ARRAY": "Tags debe ser un array"
+    "TAGS_ARRAY": "Tags debe ser un array",
+    "LIMIT_NUMERIC": "Limit debe ser un numérico",
+    "SKIP_NUMERIC": "Skip debe ser un numérico",
+    "MISSING_TOKEN": "JWT no está presente"
 }

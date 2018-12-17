@@ -8,7 +8,7 @@ const Validations = require('../models/users/validations');
 
 /**
  * This module is in charge of communicate with User database in mongodb
- * @module UserController
+ * @module Controllers/UserController
  */
 
 /**
@@ -73,3 +73,20 @@ module.exports.create_user = (name, password, username) => new Promise((resolve,
     });
   }
 });
+
+module.exports.update = async (cuid, name, password) => {
+  let action = {};
+  if ( typeof name !== "undefined" && name !== null ) {
+    action.name = name;
+  }
+  if ( typeof password !== "undefined" && password !== null && password.length > 0 ) {
+    const salt = Validations.generate_salt();
+    action.password = Validations.hash_password(password, salt);;
+    action.salt = salt;
+  }
+  // Le pasamos la opcion {new:true} para que devuelva el objeto actualizado y no el anterior
+  const modified = await User.findOneAndUpdate({cuid: cuid}, action,{ new: true }).exec();
+  if (!modified) {
+    throw CustomError.NOT_FOUND;
+  }
+};

@@ -2,6 +2,10 @@
 
 const Crypto = require('crypto');
 
+/**
+ * This module is in charge of communicate with User database in mongodb
+ * @module DatabaseSecurization
+ */
 /** *
  * This method validates if password matches with the hash
  *

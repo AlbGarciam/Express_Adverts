@@ -16,7 +16,7 @@ const userSchema = mongoose.Schema({
     type: String, unique: true, required: true, dropDups: true, index: true,
   },
   cuid: {
-    type: String, unique: true, required: true, dropDups: true,
+    type: String, unique: true, required: true, dropDups: true, index: true,
   },
   salt: { type: String, unique: true, required: true },
   dateAdded: { type: 'Date', default: Date.now, required: true },

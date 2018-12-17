@@ -1,5 +1,5 @@
 const express = require('express');
-const { check, validationResult } = require('express-validator/check');
+const { check, body, validationResult } = require('express-validator/check');
 
 const router = express.Router();
 const UserController = require('../../controller/userController');
@@ -9,9 +9,8 @@ const { VALIDATION_FAILED } = require('../../models/customErrors');
 
 /**
  * This module is in charge of communicate with Advert database in mongodb
- * @module User_router
+ * @module Routers/Users
  */
-
 
 /**
  * Method that signs in the user
@@ -35,10 +34,9 @@ router.post('/login', async (req, res, next) => {
 
 /**
  * Creates a new user
- * Method that signs in the user
  * <p>curl -d '{"name":"Alberto", "password":"12345678", "username":"correo@example.com"}'
  *    -H "Content-Type: application/json" -X POST http://localhost:8080/api/user/create</p>
- * @name Create user
+ * @name CreateUser
  * @route {POST} /api/user/create
  * @bodyparam {String} Username Username of the user
  * @bodyparam {String} Password Password of the user
@@ -54,6 +52,38 @@ router.post('/create', [
   }
   try {
     await UserController.create_user(req.body.name, req.body.password, req.body.username);
+    res.status(200).send({ message: 'ok' });
+  } catch (err) {
+    next(err);
+    return;
+  }
+});
+
+/**
+ * Modifies the user
+ * <p>curl -X PUT \
+  http://localhost:8080/api/user/update/cjpsrqvi10003a51r6iqgyopo \
+  -H 'Authorization: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9..Ecb1Pwap' \
+  -H 'Content-Type: application/json' \
+  -H 'Postman-Token: 16054209-28e5-4f66-86e0-b98eadc049ca' \
+  -H 'cache-control: no-cache' \
+  -d '{
+    "name": "Nuevo nombre"
+}'</p>
+ * @name UpdateUser
+ * @route {PUT} /api/user/update/:cuid
+ * @authentication This route uses JWT verification. If you don't have the JWT you need to
+ * sign in with a valid user
+ * @routeparam {String} :cuid CUID of the user to be modified
+ * @bodyparam {String} Password New password of the user
+ * @bodyparam {String} Name New name of the user
+ */
+router.put('/update/:cuid', async (req, res, next) => {
+  const cuid = req.params.cuid;
+  const name = req.body.name;
+  const password = req.body.password;
+  try{
+    await UserController.update(cuid, name, password);
     res.status(200).send({ message: 'ok' });
   } catch (err) {
     next(err);

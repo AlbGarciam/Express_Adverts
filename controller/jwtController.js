@@ -3,7 +3,7 @@
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
 const config = require('../etc/config').jwt;
-const { JWT_ERROR, INVALID_TOKEN } = require('../models/customErrors');
+const { JWT_ERROR, INVALID_TOKEN, MISSING_TOKEN } = require('../models/customErrors');
 const User = require('../models/users/user');
 const CustomErrors = require('../models/customErrors');
 
@@ -11,7 +11,7 @@ const secretKey = fs.readFileSync('./etc/private.key');
 const publicKey = fs.readFileSync('./etc/public.pem');
 /**
  * This module is in charge of manage JSON web token
- * @module JWTController
+ * @module Controllers/JWTController
  */
 
 
@@ -55,7 +55,7 @@ function validateToken(sessionData) {
 function decryptToken(token) {
   return new Promise((resolve, reject) => {
     if (!token) {
-      reject(INVALID_TOKEN);
+      reject(MISSING_TOKEN);
     }
     jwt.verify(token, publicKey, (err, decoded) => {
       if (err || !decoded) {

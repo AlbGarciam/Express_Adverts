@@ -24,3 +24,4 @@ module.exports.VALIDATION_FAILED = customMessage => new CustomError(400, 'WRONG_
 // JWT errors
 module.exports.JWT_ERROR = customMessage => new CustomError(403, 'JWT_ERROR', customMessage);
 module.exports.INVALID_TOKEN = new CustomError(403, 'INVALID_TOKEN');
+module.exports.MISSING_TOKEN = new CustomError(401, 'MISSING_TOKEN');

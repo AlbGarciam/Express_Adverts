@@ -1,7 +1,7 @@
 
 
 const express = require('express');
-const { body, validationResult } = require('express-validator/check');
+const { body, check, validationResult } = require('express-validator/check');
 
 const router = express.Router();
 const AdvertController = require('../../controller/advertController');
@@ -9,7 +9,7 @@ const { VALIDATION_FAILED } = require('../../models/customErrors');
 
 /**
  * This module is in charge of communicate with Advert database in mongodb
- * @module User_router
+ * @module Routers/Adverts
  */
 
 
@@ -30,7 +30,15 @@ const { VALIDATION_FAILED } = require('../../models/customErrors');
  * @queryparam {String} name Filter by name
  * @queryparam {String | Number} price Price to be filtered
  */
-router.get('/', async (req, res, next) => {
+router.get('/', [
+  check('limit').isNumeric().withMessage('LIMIT_NUMERIC'),
+  check('skip').isNumeric().withMessage('SKIP_NUMERIC'),
+] , async (req, res, next) => {
+  // Finds the validation errors in this request and wraps them in an object with handy functions
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return next(VALIDATION_FAILED(errors.array()[0].msg));
+  }
   const limit = parseInt(req.query.limit, 10) || null;
   const skip = parseInt(req.query.skip, 10) || null;
   const sort = req.query.sort || null;
@@ -63,7 +71,7 @@ router.get('/', async (req, res, next) => {
  * @route {get} /api/adverts/create
  * @authentication This route uses JWT verification. If you don't have the JWT you need to sign in
  * with a valid user
- * @bodyparam {Arrat.String} tags List tag to be assigned to the item.
+ * @bodyparam {Array.String} tags List tag to be assigned to the item.
  * @bodyparam {Boolean} sold If item is sold or not
  * @bodyparam {String} name Name of the item
  * @bodyparam {Number} price Price of the item

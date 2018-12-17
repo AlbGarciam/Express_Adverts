@@ -8,7 +8,7 @@ const { Price } = require('../models/adverts/price');
 
 /**
  * This module is in charge of communicate with Advert database in mongodb
- * @module AdvertController
+ * @module Controllers/AdvertController
  */
 
 /**

@@ -8,9 +8,12 @@
 	"JWT_ERROR": "JSON web token error",
 	"INVALID_TOKEN": "Invalid token",
 	"USER_IS_EMAIL": "User must be an email",
-	"EMPTY_NAME":"Name cannot be empty",
-	"PRICE_NUMERIC":"Price must be numeric",
+	"EMPTY_NAME": "Name cannot be empty",
+	"PRICE_NUMERIC": "Price must be numeric",
 	"SOLD_BOOL": "Sold must be a boolean",
 	"PHOTO_URL": "Photo must be a valid URL",
-	"TAGS_ARRAY": "Tags must be an array"
+	"TAGS_ARRAY": "Tags must be an array",
+	"LIMIT_NUMERIC": "Limit must be numeric",
+	"SKIP_NUMERIC": "Skip must be numeric",
+	"MISSING_TOKEN": "JWT is not present"
 }
