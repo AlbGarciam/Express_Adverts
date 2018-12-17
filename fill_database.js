@@ -1,50 +1,47 @@
 "use strict";
 
 require('./database/dbConnection.js');
-var fs = require('fs');
-const advertController = require("./controller/advertController");
-const userController = require("./controller/userController");
+const fs = require('fs');
+const AdvertController = require("./controller/advertController");
+const UserController = require("./controller/userController");
+let users = fs.readFileSync('./database/default_users.json', {encoding:'utf8'});
+let adverts = fs.readFileSync('./database/default_adverts.json', {encoding:'utf8'});
 
-function load_users() {
-    fs.readFile('./database/default_users.json', 'utf8', function (err, data) {
-        if (err) {
-            console.error("Cannot read file")
-        } else {
-            var obj = JSON.parse(data);
-            obj.users.forEach(element => {
-                userController.create_user(element.name, element.password, element.username).then((result) => {
-                    console.log("[fill_database][load_users] user loaded: " + JSON.stringify(element));
-                }, (err) => {
-                    console.log("[fill_database][load_users] user can't be loaded: " + JSON.stringify(element));
-                });
-            });
+async function load_users(data) {
+    try {
+        var obj = JSON.parse(data);
+        for (let i= 0; i < obj.users.length; i++){
+            var user = obj.users[i];
+            try {
+                await UserController.create_user(user.name, user.password, user.username);
+                console.log("[fill_database][load_users] user loaded: " + JSON.stringify(user));
+            } catch (err){
+                console.log("[fill_database][load_users] user can't be loaded: " + JSON.stringify(user));
+            }
         }
-        
-      });
+    } catch(err){
+        console.log(err);
+    }
 };
 
-function load_ads() {
-    fs.readFile('./database/default_adverts.json', 'utf8', function (err, data) {
-        if (err) {
-            console.error("Cannot read file")
-        } else {
-            var obj = JSON.parse(data);
-            obj.adverts.forEach(element => {
-                advertController.insertAdvert(element.nombre, element.venta, element.precio, element.foto, element.tags).then((result) => {
-                    console.log("[fill_database][load_ads] Ad loaded: " 
-                                            + JSON.stringify(element));
-                }, (err) => {
-                    console.log("[fill_database][load_ads] Ad can't be loaded: " 
-                                            + JSON.stringify(element));
-                });
-            });
+async function load_adverts(data) {
+    try {
+        var obj = JSON.parse(data);
+        for (let i= 0; i < obj.adverts.length; i++){
+            var advert = obj.adverts[i];
+            try {
+                await AdvertController.insertAdvert(advert.nombre, advert.venta, advert.precio, advert.foto, advert.tags)
+                console.log("[fill_database][load_adverts] advert loaded: " + JSON.stringify(advert));
+            } catch (err){
+                console.log("[fill_database][load_adverts] advert can't be loaded: " + JSON.stringify(advert));
+            }
         }
-        
-      });
+    } catch(err){
+        console.log(err);
+    }
 };
 
 
 console.log("[fill_database] Starting filling database");
-load_users();
-load_ads();
-console.log("[fill_database] Finished");
+load_users(users);
+load_adverts(adverts);
