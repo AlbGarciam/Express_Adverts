@@ -29,7 +29,7 @@ npm run fillDatabase
 ```
 
 ### Configuration
-**Important** It is neccessary to replace the private.key and the public.pem files if you are going to use it in a production environment. For testing purposes you can generate your own keys using [http://travistidwell.com/jsencrypt/demo/](http://travistidwell.com/jsencrypt/demo/)
+**Important** It is neccessary to replace the private.key and the public.pem files if you are going to use it in a production environment. For testing purposes, you can generate your own keys using [http://travistidwell.com/jsencrypt/demo/](http://travistidwell.com/jsencrypt/demo/)
 
 ## Authors
 
