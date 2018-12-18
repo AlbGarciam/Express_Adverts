@@ -24,6 +24,7 @@
     "sanitize-html": "^1.19.1"
   },
   "devDependencies": {
+    "docdash": "^1.0.1",
     "eslint": "^5.10.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-config-standard": "^12.0.0",

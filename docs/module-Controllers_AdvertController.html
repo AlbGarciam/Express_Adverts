@@ -1,23 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    
     <meta charset="utf-8">
-    <title>JSDoc: Module: Controllers/AdvertController</title>
-
-    <script src="scripts/prettify/prettify.js"> </script>
-    <script src="scripts/prettify/lang-css.js"> </script>
+    <title>Controllers/AdvertController - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
     <!--[if lt IE 9]>
       <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
-    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-
 <body>
 
-<div id="main">
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
 
-    <h1 class="page-title">Module: Controllers/AdvertController</h1>
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Controllers_AdvertController.html">Controllers/AdvertController</a><ul class='methods'><li data-type='method'><a href="module-Controllers_AdvertController.html#.getAdverts">getAdverts</a></li><li data-type='method'><a href="module-Controllers_AdvertController.html#.insertAdvert">insertAdvert</a></li><li data-type='method'><a href="module-Controllers_AdvertController.html#~createAdvert">createAdvert</a></li><li data-type='method'><a href="module-Controllers_AdvertController.html#~insertPriceFilter">insertPriceFilter</a></li></ul></li><li><a href="module-Controllers_JWTController.html">Controllers/JWTController</a><ul class='methods'><li data-type='method'><a href="module-Controllers_JWTController.html#.generateToken">generateToken</a></li><li data-type='method'><a href="module-Controllers_JWTController.html#.isValidToken">isValidToken</a></li><li data-type='method'><a href="module-Controllers_JWTController.html#~decryptToken">decryptToken</a></li></ul></li><li><a href="module-Controllers_UserController.html">Controllers/UserController</a><ul class='methods'><li data-type='method'><a href="module-Controllers_UserController.html#.create_user">create_user</a></li><li data-type='method'><a href="module-Controllers_UserController.html#.login_user">login_user</a></li><li data-type='method'><a href="module-Controllers_UserController.html#~createUser">createUser</a></li></ul></li><li><a href="module-DatabaseSecurization.html">DatabaseSecurization</a><ul class='methods'><li data-type='method'><a href="module-DatabaseSecurization.html#.generate_salt">generate_salt</a></li><li data-type='method'><a href="module-DatabaseSecurization.html#.hash_password">hash_password</a></li><li data-type='method'><a href="module-DatabaseSecurization.html#.validate_password">validate_password</a></li></ul></li><li><a href="module-Routers_Adverts.html">Routers/Adverts</a></li><li><a href="module-Routers_Users.html">Routers/Users</a></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">Controllers/AdvertController</h1>
+    
 
     
 
@@ -35,25 +50,15 @@
 </header>
 
 <article>
-    <div class="container-overview">
     
-        
-            <div class="description">This module is in charge of communicate with Advert database in mongodb</div>
-        
-
+        <div class="container-overview">
         
             
+                <div class="description">This module is in charge of communicate with Advert database in mongodb</div>
+            
 
-
-
-
-
-
-
-
-
-
-
+            
+                
 
 
 
@@ -61,34 +66,34 @@
 <dl class="details">
 
     
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="controller_advertController.js.html">controller/advertController.js</a>, <a href="controller_advertController.js.html#line9">line 9</a>
     </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
     
 
     
@@ -115,10 +120,20 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+            
         
-    
-    </div>
-
+        </div>
     
 
     
@@ -127,7 +142,7 @@
 
     
 
-    
+     
 
     
 
@@ -141,17 +156,62 @@
 
     
 
-    
     <h4 class="name" id=".getAdverts"><span class="type-signature">(static) </span>getAdverts<span class="signature">(id, tags, sold, name, price, sort, limit, skip)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="controller_advertController.js.html">controller/advertController.js</a>, <a href="controller_advertController.js.html#line101">line 101</a>
+    </li></ul></dd>
     
 
     
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
 
 
 
 <div class="description">
     Returns the adverts from the database acording filters
 </div>
+
+
 
 
 
@@ -375,50 +435,6 @@
 
 
 
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controller_advertController.js.html">controller/advertController.js</a>, <a href="controller_advertController.js.html#line101">line 101</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
 
 
 
@@ -436,7 +452,7 @@
 
 
 
-<dl>
+<dl class="param-type">
     <dt>
         Type
     </dt>
@@ -451,25 +467,67 @@
     
 
 
-
-
-
         
             
 
     
 
-    
     <h4 class="name" id=".insertAdvert"><span class="type-signature">(static) </span>insertAdvert<span class="signature">(name, sold, price, photo, tags)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="controller_advertController.js.html">controller/advertController.js</a>, <a href="controller_advertController.js.html#line71">line 71</a>
+    </li></ul></dd>
     
 
     
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
 
 
 
 <div class="description">
     Inserts an advert in the database
 </div>
+
+
 
 
 
@@ -624,50 +682,6 @@
 
 
 
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controller_advertController.js.html">controller/advertController.js</a>, <a href="controller_advertController.js.html#line71">line 71</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
 
 
 
@@ -685,7 +699,7 @@
 
 
 
-<dl>
+<dl class="param-type">
     <dt>
         Type
     </dt>
@@ -700,25 +714,67 @@
     
 
 
-
-
-
         
             
 
     
 
-    
     <h4 class="name" id="~createAdvert"><span class="type-signature">(inner) </span>createAdvert<span class="signature">(name, sold, price, photo, tags)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="controller_advertController.js.html">controller/advertController.js</a>, <a href="controller_advertController.js.html#line24">line 24</a>
+    </li></ul></dd>
     
 
     
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
 
 
 
 <div class="description">
     Creates an advert model
 </div>
+
+
 
 
 
@@ -873,53 +929,6 @@
 
 
 
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controller_advertController.js.html">controller/advertController.js</a>, <a href="controller_advertController.js.html#line24">line 24</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
 
 
 
@@ -935,17 +944,62 @@
 
     
 
-    
     <h4 class="name" id="~insertPriceFilter"><span class="type-signature">(inner) </span>insertPriceFilter<span class="signature">(filter, price, lower, upper)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="controller_advertController.js.html">controller/advertController.js</a>, <a href="controller_advertController.js.html#line43">line 43</a>
+    </li></ul></dd>
     
 
     
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
 
 
 
 <div class="description">
     Creates the filter of prices
 </div>
+
+
 
 
 
@@ -1077,53 +1131,6 @@
 
 
 
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controller_advertController.js.html">controller/advertController.js</a>, <a href="controller_advertController.js.html#line43">line 43</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
 
 
 
@@ -1147,19 +1154,19 @@
 
 
 
+    
+    
 </div>
-
-<nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Controllers_AdvertController.html">Controllers/AdvertController</a></li><li><a href="module-Controllers_JWTController.html">Controllers/JWTController</a></li><li><a href="module-Controllers_UserController.html">Controllers/UserController</a></li><li><a href="module-DatabaseSecurization.html">DatabaseSecurization</a></li><li><a href="module-Routers_Adverts.html">Routers/Adverts</a></li><li><a href="module-Routers_Users.html">Routers/Users</a></li></ul><h3><a href="global.html">Global</a></h3>
-</nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Dec 17 2018 23:39:50 GMT+0100 (CET)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Dec 18 2018 19:43:12 GMT+0100 (GMT+01:00) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
-<script> prettyPrint(); </script>
-<script src="scripts/linenumber.js"> </script>
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+
+
 </body>
 </html>

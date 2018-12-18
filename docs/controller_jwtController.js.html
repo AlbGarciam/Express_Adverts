@@ -1,23 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    
     <meta charset="utf-8">
-    <title>JSDoc: Source: controller/jwtController.js</title>
-
-    <script src="scripts/prettify/prettify.js"> </script>
-    <script src="scripts/prettify/lang-css.js"> </script>
+    <title>controller/jwtController.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
     <!--[if lt IE 9]>
       <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
-    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-
 <body>
 
-<div id="main">
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
 
-    <h1 class="page-title">Source: controller/jwtController.js</h1>
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Controllers_AdvertController.html">Controllers/AdvertController</a><ul class='methods'><li data-type='method'><a href="module-Controllers_AdvertController.html#.getAdverts">getAdverts</a></li><li data-type='method'><a href="module-Controllers_AdvertController.html#.insertAdvert">insertAdvert</a></li><li data-type='method'><a href="module-Controllers_AdvertController.html#~createAdvert">createAdvert</a></li><li data-type='method'><a href="module-Controllers_AdvertController.html#~insertPriceFilter">insertPriceFilter</a></li></ul></li><li><a href="module-Controllers_JWTController.html">Controllers/JWTController</a><ul class='methods'><li data-type='method'><a href="module-Controllers_JWTController.html#.generateToken">generateToken</a></li><li data-type='method'><a href="module-Controllers_JWTController.html#.isValidToken">isValidToken</a></li><li data-type='method'><a href="module-Controllers_JWTController.html#~decryptToken">decryptToken</a></li></ul></li><li><a href="module-Controllers_UserController.html">Controllers/UserController</a><ul class='methods'><li data-type='method'><a href="module-Controllers_UserController.html#.create_user">create_user</a></li><li data-type='method'><a href="module-Controllers_UserController.html#.login_user">login_user</a></li><li data-type='method'><a href="module-Controllers_UserController.html#~createUser">createUser</a></li></ul></li><li><a href="module-DatabaseSecurization.html">DatabaseSecurization</a><ul class='methods'><li data-type='method'><a href="module-DatabaseSecurization.html#.generate_salt">generate_salt</a></li><li data-type='method'><a href="module-DatabaseSecurization.html#.hash_password">hash_password</a></li><li data-type='method'><a href="module-DatabaseSecurization.html#.validate_password">validate_password</a></li></ul></li><li><a href="module-Routers_Adverts.html">Routers/Adverts</a></li><li><a href="module-Routers_Users.html">Routers/Users</a></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">controller/jwtController.js</h1>
+    
 
     
 
@@ -26,57 +41,32 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>
-
-const fs = require('fs');
+            <pre class="prettyprint source linenums"><code>const fs = require('fs');
 const jwt = require('jsonwebtoken');
-const config = require('../etc/config').jwt;
 const { JWT_ERROR, INVALID_TOKEN, MISSING_TOKEN } = require('../models/customErrors');
 const User = require('../models/users/user');
-const CustomErrors = require('../models/customErrors');
+const crypto = require("crypto");
 
 const secretKey = fs.readFileSync('./etc/private.key');
 const publicKey = fs.readFileSync('./etc/public.pem');
+
+function sha256(data) {
+    return crypto.createHash("sha256").update(data, "binary").digest("base64");
+}
+
 /**
  * This module is in charge of manage JSON web token
  * @module Controllers/JWTController
  */
 
-
-/**
- *
- * *************************** IMPORTANT: ***************************************\n
- * * If this app is used for production purposes,                               *\n
- * * you need to replace the private key and public key with your own keys      *\n
- * ******************************************************************************
- *
- */
-
-
-/**
- * Validates the payload of a JWT
- *
- * @param {Object} sessionData This session data should content a username
- * @returns {Promise} Promise which only is fullfilled when is successfull
- */
-function validateToken(sessionData) {
-  const { username } = sessionData;
-  return new Promise((resolve, reject) => {
-    if (!username) {
-      reject(CustomErrors.INVALID_TOKEN);
-    }
-    User.search_by_username(username, (err, user) => {
-      if (err || !user) {
-        reject(CustomErrors.INVALID_TOKEN);
-      }
-      resolve(username);
-    });
-  });
-}
-
 /**
  * Decrypts the JWT
- *
+ * 
+ * &lt;p>*************************** IMPORTANT: **************************************&lt;br>
+ * * If this app is used for production purposes,                               *&lt;br>
+ * * you need to replace the private key and public key with your own keys      *&lt;br>
+ * ******************************************************************************&lt;/p>
+ * 
  * @param {string} token data which will be decrypted
  * @returns {Promise} returns if exists the payload
  */
@@ -100,31 +90,36 @@ function decryptToken(token) {
  * @param {string} token JWT token which needs to be validated
  * @returns {Promise} Promise which returns the new token that should be used
  */
-module.exports.isValidToken = token => new Promise((resolve, reject) => {
-  decryptToken(token).then((result) => {
-    validateToken(result).then((username) => { // only can be successfull when is valid
-      resolve(this.generateToken(username));
-    }, (err) => {
-      reject(err);
-    });
-  }, (err) => {
-    reject(err);
-  });
-});
+module.exports.isValidToken = async (token) => {
+  var sessionData = await decryptToken(token);
+  if (sessionData.username &amp;&amp; sessionData.token) {
+    return sha256(sessionData.username) === sessionData.token
+  }
+  return false;
+}
 
 /**
  * Generates the JWT from an username
- *
+ * 
+ * &lt;p>*************************** IMPORTANT: **************************************&lt;br>
+ * * If this app is used for production purposes,                               *&lt;br>
+ * * you need to replace the private key and public key with your own keys      *&lt;br>
+ * ******************************************************************************&lt;/p>
+ * 
  * @param {string} username data which will be used to generate the token
  * @returns {string} JWT
  */
 module.exports.generateToken = (username) => {
-  const sessionData = {
-    username,
+  const sessionData = { 
+    username: username,
+    token: sha256(username)
   };
   const token = jwt.sign({
     data: sessionData,
-  }, secretKey, config.signOptions);
+  }, secretKey, {
+    expiresIn: process.env.JWT_TTL,
+    algorithm: process.env.JWT_ALGORITHM
+  });
   return token;
 };
 </code></pre>
@@ -134,19 +129,19 @@ module.exports.generateToken = (username) => {
 
 
 
+    
+    
 </div>
-
-<nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Controllers_AdvertController.html">Controllers/AdvertController</a></li><li><a href="module-Controllers_JWTController.html">Controllers/JWTController</a></li><li><a href="module-Controllers_UserController.html">Controllers/UserController</a></li><li><a href="module-DatabaseSecurization.html">DatabaseSecurization</a></li><li><a href="module-Routers_Adverts.html">Routers/Adverts</a></li><li><a href="module-Routers_Users.html">Routers/Users</a></li></ul><h3><a href="global.html">Global</a></h3>
-</nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Dec 17 2018 23:39:50 GMT+0100 (CET)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Dec 18 2018 19:43:12 GMT+0100 (GMT+01:00) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
-<script> prettyPrint(); </script>
-<script src="scripts/linenumber.js"> </script>
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+
+
 </body>
 </html>

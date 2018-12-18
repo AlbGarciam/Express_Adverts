@@ -2,50 +2,28 @@ const fs = require('fs');
 const jwt = require('jsonwebtoken');
 const { JWT_ERROR, INVALID_TOKEN, MISSING_TOKEN } = require('../models/customErrors');
 const User = require('../models/users/user');
-const CustomErrors = require('../models/customErrors');
+const crypto = require("crypto");
 
 const secretKey = fs.readFileSync('./etc/private.key');
 const publicKey = fs.readFileSync('./etc/public.pem');
+
+function sha256(data) {
+    return crypto.createHash("sha256").update(data, "binary").digest("base64");
+}
+
 /**
  * This module is in charge of manage JSON web token
  * @module Controllers/JWTController
  */
 
-
-/**
- *
- * *************************** IMPORTANT: ***************************************\n
- * * If this app is used for production purposes,                               *\n
- * * you need to replace the private key and public key with your own keys      *\n
- * ******************************************************************************
- *
- */
-
-
-/**
- * Validates the payload of a JWT
- *
- * @param {Object} sessionData This session data should content a username
- * @returns {Promise} Promise which only is fullfilled when is successfull
- */
-function validateToken(sessionData) {
-  const { username } = sessionData;
-  return new Promise((resolve, reject) => {
-    if (!username) {
-      reject(CustomErrors.INVALID_TOKEN);
-    }
-    User.search_by_username(username, (err, user) => {
-      if (err || !user) {
-        reject(CustomErrors.INVALID_TOKEN);
-      }
-      resolve(username);
-    });
-  });
-}
-
 /**
  * Decrypts the JWT
- *
+ * 
+ * <p>*************************** IMPORTANT: **************************************<br>
+ * * If this app is used for production purposes,                               *<br>
+ * * you need to replace the private key and public key with your own keys      *<br>
+ * ******************************************************************************</p>
+ * 
  * @param {string} token data which will be decrypted
  * @returns {Promise} returns if exists the payload
  */
@@ -69,27 +47,29 @@ function decryptToken(token) {
  * @param {string} token JWT token which needs to be validated
  * @returns {Promise} Promise which returns the new token that should be used
  */
-module.exports.isValidToken = token => new Promise((resolve, reject) => {
-  decryptToken(token).then((result) => {
-    validateToken(result).then((username) => { // only can be successfull when is valid
-      resolve(this.generateToken(username));
-    }, (err) => {
-      reject(err);
-    });
-  }, (err) => {
-    reject(err);
-  });
-});
+module.exports.isValidToken = async (token) => {
+  var sessionData = await decryptToken(token);
+  if (sessionData.username && sessionData.token) {
+    return sha256(sessionData.username) === sessionData.token
+  }
+  return false;
+}
 
 /**
  * Generates the JWT from an username
- *
+ * 
+ * <p>*************************** IMPORTANT: **************************************<br>
+ * * If this app is used for production purposes,                               *<br>
+ * * you need to replace the private key and public key with your own keys      *<br>
+ * ******************************************************************************</p>
+ * 
  * @param {string} username data which will be used to generate the token
  * @returns {string} JWT
  */
 module.exports.generateToken = (username) => {
-  const sessionData = {
-    username,
+  const sessionData = { 
+    username: username,
+    token: sha256(username)
   };
   const token = jwt.sign({
     data: sessionData,
