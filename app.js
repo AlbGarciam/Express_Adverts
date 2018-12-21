@@ -45,10 +45,7 @@ i18n.configure({
 
 app.use(i18n.init);
 
-// Configure port
-app.listen(process.env.SERVER_PORT, () => {
-  console.info(`Server is running at: ${process.env.SERVER_PORT}`);
-});
+
 
 // Configure logger
 // Log files will be write at ./log/access.log and it will rotate each day

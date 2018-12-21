@@ -6,7 +6,7 @@
     "predb": "rm -rf ./database/db && mkdir ./database/db",
     "db": "mongod --config ./etc/mongo.conf",
     "fillDatabase": "node fill_database.js",
-    "start": "node app.js",
+    "cluster": "node ./bin/cluster",
     "doc": "./node_modules/.bin/jsdoc -c jsdoc.json -R Readme.md"
   },
   "dependencies": {
