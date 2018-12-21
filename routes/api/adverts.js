@@ -6,6 +6,9 @@ const { body, check, validationResult } = require('express-validator/check');
 const router = express.Router();
 const AdvertController = require('../../controller/advertController');
 const { VALIDATION_FAILED } = require('../../models/customErrors');
+const jwtAuthMiddleware = require('../jwt');
+
+router.use( jwtAuthMiddleware() );
 
 /**
  * This module is in charge of communicate with Advert database in mongodb

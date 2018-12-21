@@ -1,13 +1,12 @@
 const mongoose = require('mongoose');
-
 /**
  * User type definition
  * @typedef {Object} User
- * @property {string} name
- * @property {string} password
- * @property {string} username
- * @property {cuid} cuid
- * @property {Date} registration date
+ * @property {string} name Name of the user
+ * @property {string} password Password of the user
+ * @property {string} username Username of the user
+ * @property {cuid} cuid Unique identifier of the user
+ * @property {Date} registration Registration date of the user
  */
 const userSchema = mongoose.Schema({
   name: { type: String, required: true },

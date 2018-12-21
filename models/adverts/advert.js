@@ -1,7 +1,6 @@
 
 
 const mongoose = require('mongoose');
-
 /**
  * Advert model definition
  * @typedef {Object} Advert

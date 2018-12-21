@@ -6,6 +6,7 @@ const UserController = require('../../controller/userController');
 
 const JWTController = require('../../controller/jwtController');
 const { VALIDATION_FAILED } = require('../../models/customErrors');
+const jwtAuthMiddleware = require('../jwt');
 
 /**
  * This module is in charge of communicate with Advert database in mongodb
@@ -78,7 +79,7 @@ router.post('/create', [
  * @bodyparam {String} Password New password of the user
  * @bodyparam {String} Name New name of the user
  */
-router.put('/update/:cuid', async (req, res, next) => {
+router.put('/update/:cuid', jwtAuthMiddleware(), async (req, res, next) => {
   const cuid = req.params.cuid;
   const name = req.body.name;
   const password = req.body.password;

@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>controller/userController.js - Documentation</title>
+    <title>routes/jwt.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -31,7 +31,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">controller/userController.js</h1>
+    <h1 class="page-title">routes/jwt.js</h1>
     
 
     
@@ -41,99 +41,30 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>
-
-const Cuid = require('cuid');
-const sanitizeHTML = require('sanitize-html');
-const User = require('../models/users/user');
-const CustomError = require('../models/customErrors');
-const Validations = require('../models/users/validations');
-
+            <pre class="prettyprint source linenums"><code>"use strict";
+const JWTController = require('../controller/jwtController');
+const { INVALID_TOKEN } = require('../models/customErrors');
 /**
- * This module is in charge of communicate with User database in mongodb
- * @module Controllers/UserController
+ * This module provides a middleware to validate the authorization header
+ * @module Routers/JWT
  */
-
-/**
- * Creates a user model
- * @param {string} username username of the user
- * @param {string} password password of the user
- * @returns {Promise} With the user model if proceeds
- */
-module.exports.login_user = (username, password) => new Promise((resolve, reject) => {
-  if (!username || !password) {
-    reject(CustomError.BAD_REQUEST);
-  }
-  User.search_by_username(username, (err, user) => {
-    if (err) {
-      reject(CustomError.NOT_FOUND);
-    } else if (user &amp;&amp; Validations.validate_password(user.salt, password, user.password)) {
-      resolve({
-        username: user.username,
-        name: user.name,
-        date: user.date,
-        id: user.cuid,
-      });
-    } else {
-      reject(CustomError.INVALID_CREDENTIALS);
-    }
-  });
-});
-
-/**
- * Creates a user model
- * @param {string} name
- * @param {string} password
- * @param {string} username
- * @returns {Object} User
- */
-function createUser(name, password, username) {
-  const user = new User();
-  user.name = sanitizeHTML(name);
-  user.salt = Validations.generate_salt();
-  user.password = Validations.hash_password(password, user.salt);
-  user.username = sanitizeHTML(username);
-  user.cuid = Cuid();
-  return user;
-}
-
-/**
- * Creates a user from a given name, password and username
- * @param {string} name
- * @param {string} password
- * @param {string} username
- * @returns {Promise}
- */
-module.exports.create_user = (name, password, username) => new Promise((resolve, reject) => {
-  const user = createUser(name, password, username);
-  const error = user.validateSync();
-  if (error) {
-    reject(CustomError.WRONG_PARAMS);
-  } else {
-    user.save((err, saved) => {
-      if (err) reject(err.code === 11000 ? CustomError.USER_EXISTS : CustomError.BAD_REQUEST);
-      resolve(saved);
-    });
-  }
-});
-
-module.exports.update = async (cuid, name, password) => {
-  let action = {};
-  if ( typeof name !== "undefined" &amp;&amp; name !== null ) {
-    action.name = name;
-  }
-  if ( typeof password !== "undefined" &amp;&amp; password !== null &amp;&amp; password.length > 0 ) {
-    const salt = Validations.generate_salt();
-    action.password = Validations.hash_password(password, salt);;
-    action.salt = salt;
-  }
-  // Le pasamos la opcion {new:true} para que devuelva el objeto actualizado y no el anterior
-  const modified = await User.findOneAndUpdate({cuid: cuid}, action,{ new: true }).exec();
-  if (!modified) {
-    throw CustomError.NOT_FOUND;
-  }
-};
-</code></pre>
+module.exports = () => {
+    return async (req, res, next) => {
+      // Retrieve token
+      const token = req.header('Authorization');
+      try {
+        if (await JWTController.isValidToken(token)) 
+            next();
+        else
+            next(INVALID_TOKEN);
+      } catch (err) {
+        next(err);
+        return;
+      }
+  
+    };
+  };
+  </code></pre>
         </article>
     </section>
 

@@ -1,7 +1,6 @@
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
-const { JWT_ERROR, INVALID_TOKEN, MISSING_TOKEN } = require('../models/customErrors');
-const User = require('../models/users/user');
+const { JWT_ERROR, MISSING_TOKEN } = require('../models/customErrors');
 const crypto = require("crypto");
 
 const secretKey = fs.readFileSync('./etc/private.key');

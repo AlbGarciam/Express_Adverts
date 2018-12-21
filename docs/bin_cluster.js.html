@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>controller/userController.js - Documentation</title>
+    <title>bin/cluster.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -31,7 +31,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">controller/userController.js</h1>
+    <h1 class="page-title">bin/cluster.js</h1>
     
 
     
@@ -41,98 +41,123 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>
-
-const Cuid = require('cuid');
-const sanitizeHTML = require('sanitize-html');
-const User = require('../models/users/user');
-const CustomError = require('../models/customErrors');
-const Validations = require('../models/users/validations');
-
-/**
- * This module is in charge of communicate with User database in mongodb
- * @module Controllers/UserController
+            <pre class="prettyprint source linenums"><code>/**
+ * Module dependencies.
  */
 
+require('dotenv').config();
+
+var app = require('../app');
+var debug = require('debug')('express_adverts:server');
+var http = require('http');
+const cluster = require('cluster');
+
 /**
- * Creates a user model
- * @param {string} username username of the user
- * @param {string} password password of the user
- * @returns {Promise} With the user model if proceeds
+ * Get port from environment and store in Express.
  */
-module.exports.login_user = (username, password) => new Promise((resolve, reject) => {
-  if (!username || !password) {
-    reject(CustomError.BAD_REQUEST);
-  }
-  User.search_by_username(username, (err, user) => {
-    if (err) {
-      reject(CustomError.NOT_FOUND);
-    } else if (user &amp;&amp; Validations.validate_password(user.salt, password, user.password)) {
-      resolve({
-        username: user.username,
-        name: user.name,
-        date: user.date,
-        id: user.cuid,
-      });
-    } else {
-      reject(CustomError.INVALID_CREDENTIALS);
-    }
+
+var port = normalizePort(process.env.SERVER_PORT || '3000');
+app.set('port', port);
+
+// control de cluster
+if (cluster.isMaster) {
+
+  cluster.on('listening', (worker, address) => {
+    console.log('Worker', worker.id, ' PID: ', worker.process.pid, ' Connected to: ', address.port);
   });
-});
 
-/**
- * Creates a user model
- * @param {string} name
- * @param {string} password
- * @param {string} username
- * @returns {Object} User
- */
-function createUser(name, password, username) {
-  const user = new User();
-  user.name = sanitizeHTML(name);
-  user.salt = Validations.generate_salt();
-  user.password = Validations.hash_password(password, user.salt);
-  user.username = sanitizeHTML(username);
-  user.cuid = Cuid();
-  return user;
+  cluster.on('exit', (worker, code, signal) => {
+    console.log('Worker', worker.id, ' PID: ', worker.process.pid, 'Finished');
+    cluster.fork();
+  });
+
+  const cpus = require('os').cpus().length;
+  const numCores = cpus == 1 ? 1 : (cpus - 1);
+
+  // hago los workers
+  for (let i = 0; i &lt; numCores; i++) {
+    cluster.fork();
+  }
+
+} else {
+
+  // arranque de un worker del cluster
+
+  /**
+   * Create HTTP server.
+   */
+
+  var server = http.createServer(app);
+
+  /**
+   * Listen on provided port, on all network interfaces.
+   */
+
+  server.listen(port);
+  server.on('error', onError);
+  server.on('listening', onListening);
+
 }
 
 /**
- * Creates a user from a given name, password and username
- * @param {string} name
- * @param {string} password
- * @param {string} username
- * @returns {Promise}
+ * Normalize a port into a number, string, or false.
  */
-module.exports.create_user = (name, password, username) => new Promise((resolve, reject) => {
-  const user = createUser(name, password, username);
-  const error = user.validateSync();
-  if (error) {
-    reject(CustomError.WRONG_PARAMS);
-  } else {
-    user.save((err, saved) => {
-      if (err) reject(err.code === 11000 ? CustomError.USER_EXISTS : CustomError.BAD_REQUEST);
-      resolve(saved);
-    });
-  }
-});
 
-module.exports.update = async (cuid, name, password) => {
-  let action = {};
-  if ( typeof name !== "undefined" &amp;&amp; name !== null ) {
-    action.name = name;
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
   }
-  if ( typeof password !== "undefined" &amp;&amp; password !== null &amp;&amp; password.length > 0 ) {
-    const salt = Validations.generate_salt();
-    action.password = Validations.hash_password(password, salt);;
-    action.salt = salt;
+
+  if (port >= 0) {
+    // port number
+    return port;
   }
-  // Le pasamos la opcion {new:true} para que devuelva el objeto actualizado y no el anterior
-  const modified = await User.findOneAndUpdate({cuid: cuid}, action,{ new: true }).exec();
-  if (!modified) {
-    throw CustomError.NOT_FOUND;
+
+  return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
   }
-};
+
+  var bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+  debug('Listening on ' + bind);
+}
 </code></pre>
         </article>
     </section>

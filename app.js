@@ -16,26 +16,6 @@ function isAPI(req) {
   return req.originalUrl.indexOf('/api') === 0;
 }
 
-function isSecured(requestedpath) {
-  return !(requestedpath === '/api/user/create' || requestedpath === '/api/user/login');
-}
-
-async function onRequestReceived(req, res, next) {
-  if (isSecured(req.path)) {
-    const token = req.header('Authorization');
-    try {
-      const newToken = await JWTController.isValidToken(token);
-      res.setHeader('Authorization', newToken);
-      next();
-    } catch (err) {
-      next(err);
-      return;
-    }
-  } else {
-    next();
-  }
-}
-
 const app = express();
 i18n.configure({
   locales: ['en', 'es'],
@@ -44,8 +24,6 @@ i18n.configure({
 });
 
 app.use(i18n.init);
-
-
 
 // Configure logger
 // Log files will be write at ./log/access.log and it will rotate each day
@@ -58,10 +36,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '/public')));
-
-// This will intercept all requests
-// app.all('*', checkToken);
-app.all('*', onRequestReceived);
 
 app.use('/api/user', require('./routes/api/users'));
 app.use('/api/adverts', require('./routes/api/adverts'));
