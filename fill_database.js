@@ -1,5 +1,6 @@
 "use strict";
 
+require('dotenv').config();
 require('./database/dbConnection.js');
 const fs = require('fs');
 const AdvertController = require("./controller/advertController");

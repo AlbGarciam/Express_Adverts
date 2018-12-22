@@ -7,7 +7,6 @@ const rfs = require('rotating-file-stream');
 const i18n = require('i18n');
 const CustomErrors = require('./models/customErrors');
 
-const JWTController = new require('./controller/jwtController');
 require('./database/dbConnection.js');
 require('./models/users/user');
 require('./models/adverts/advert');
