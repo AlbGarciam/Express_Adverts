@@ -18,6 +18,7 @@ const jwtAuthMiddleware = require('../jwt');
  * <p>curl -d '{"username":"correo@example.com", "password":"12345678"}' -H "Content-Type: application/json" -i -X POST http://localhost:8080/api/user/login</p>
  * @name Login
  * @route {POST} /api/user/login
+ * @headerparam {String} Accept-Language Language of the response
  * @bodyparam {String} Username Username of the user
  * @bodyparam {String} Password Password of the user
  */
@@ -39,6 +40,7 @@ router.post('/login', async (req, res, next) => {
  *    -H "Content-Type: application/json" -X POST http://localhost:8080/api/user/create</p>
  * @name CreateUser
  * @route {POST} /api/user/create
+ * @headerparam {String} Accept-Language Language of the response
  * @bodyparam {String} Username Username of the user
  * @bodyparam {String} Password Password of the user
  * @bodyparam {String} Name Name of the user
@@ -75,6 +77,7 @@ router.post('/create', [
  * @route {PUT} /api/user/update/:cuid
  * @authentication This route uses JWT verification. If you don't have the JWT you need to
  * sign in with a valid user
+ * @headerparam {String} Accept-Language Language of the response
  * @routeparam {String} :cuid CUID of the user to be modified
  * @bodyparam {String} Password New password of the user
  * @bodyparam {String} Name New name of the user

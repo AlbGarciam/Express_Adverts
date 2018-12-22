@@ -23,6 +23,7 @@ router.use( jwtAuthMiddleware() );
  * @route {get} /api/adverts
  * @authentication This route uses JWT verification. If you don't have the JWT you need to
  * sign in with a valid user
+ * @headerparam {String} Accept-Language Language of the response
  * @queryparam {Number} limit Maximun number of registers
  * @queryparam {Number} skip How many entries must be skipped on the request
  * @queryparam {String} sort Attribute which will be used to sort the entries
@@ -74,6 +75,7 @@ router.get('/', [
  * @route {get} /api/adverts/create
  * @authentication This route uses JWT verification. If you don't have the JWT you need to sign in
  * with a valid user
+ * @headerparam {String} Accept-Language Language of the response
  * @bodyparam {Array.String} tags List tag to be assigned to the item.
  * @bodyparam {Boolean} sold If item is sold or not
  * @bodyparam {String} name Name of the item
@@ -112,6 +114,7 @@ router.post('/create', [
  * @route {get} /api/adverts/create
  * @authentication This route uses JWT verification. If you don't have the JWT you need to sign in
  * with a valid user
+ * @headerparam {String} Accept-Language Language of the response
  */
 router.get('/tags', async (req, res, next) => {
   try {
