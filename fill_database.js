@@ -44,5 +44,9 @@ async function load_adverts(data) {
 
 
 console.log("[fill_database] Starting filling database");
-load_users(users);
-load_adverts(adverts);
+var fill = (async () => {
+    await load_users(users);
+    await load_adverts(adverts);
+    process.exit(0);
+});
+fill();
