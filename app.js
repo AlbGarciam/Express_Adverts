@@ -41,7 +41,11 @@ app.use('/api/adverts', require('./routes/api/adverts'));
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
-  next(CustomErrors.NOT_FOUND);
+  const response = {
+    status: CustomErrors.NOT_FOUND.code,
+  };
+  response.msg = __(CustomErrors.NOT_FOUND.message);
+  res.status(CustomErrors.NOT_FOUND.code).json(response);
 });
 
 // error handler
