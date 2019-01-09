@@ -12,13 +12,13 @@ const mongoose = require('mongoose');
  * @property {string} cuid unique identifier of the article
  */
 const advertSchema = mongoose.Schema({
-  name: { type: String, required: true },
-  sold: { type: Boolean, required: true },
-  price: { type: Number, required: true },
+  name: { type: String, required: true, index: true},
+  sold: { type: Boolean, required: true, index: true },
+  price: { type: Number, required: true, index: true },
   photo: { type: String, required: true },
   tags: [{ type: String, enum: ['work', 'lifestyle', 'motor', 'mobile'] }],
   cuid: {
-    type: String, unique: true, required: true, dropDups: true,
+    type: String, unique: true, required: true, dropDups: true, index: true
   },
 });
 
