@@ -3,10 +3,13 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "predb": "rm -rf ./database/db && mkdir ./database/db && mkdir -p ./var/log && touch ./var/log/mongod.log",
-    "db": "mongod --config ./etc/mongo.conf",
+    "postinstall": "npm run prepareDB && npm run db && npm run fillDatabase && npm run stopDB",
+    "stopDB": "mongo --port 2703 --eval \"db.getSiblingDB('admin').shutdownServer();quit()\"",
+    "prepareDB": "rm -rf ./database/db && mkdir ./database/db && mkdir -p ./var/log && touch ./var/log/mongod.log",
+    "db": "mongod --fork --config ./etc/mongo.conf",
     "fillDatabase": "node fill_database.js",
-    "cluster": "node ./bin/cluster",
+    "cluster": "npm run db && node ./bin/cluster.js",
+    "postcluster": "npm run stopDB",
     "doc": "./node_modules/.bin/jsdoc -c jsdoc.json -R Readme.md"
   },
   "dependencies": {
