@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "predb": "rm -rf ./database/db && mkdir ./database/db && mkdir var && mkdir var/log && touch ./var/log/mongod.log",
+    "predb": "rm -rf ./database/db && mkdir ./database/db && mkdir -p ./var/log && touch ./var/log/mongod.log",
     "db": "mongod --config ./etc/mongo.conf",
     "fillDatabase": "node fill_database.js",
     "cluster": "node ./bin/cluster",
