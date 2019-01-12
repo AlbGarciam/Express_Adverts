@@ -8,8 +8,7 @@
     "prepareDB": "rm -rf ./database/db && mkdir ./database/db && mkdir -p ./var/log && touch ./var/log/mongod.log",
     "db": "mongod --fork --config ./etc/mongo.conf",
     "fillDatabase": "node fill_database.js",
-    "cluster": "npm run db && node ./bin/cluster.js",
-    "postcluster": "npm run stopDB",
+    "cluster": "node ./bin/cluster.js",
     "doc": "./node_modules/.bin/jsdoc -c jsdoc.json -R Readme.md"
   },
   "dependencies": {
