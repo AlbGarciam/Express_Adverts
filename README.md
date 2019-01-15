@@ -3,6 +3,19 @@
 
 This is a sample node.js project which connects with a mongoDB database. It uses mongoose to connect the database and the server.
 
+A sample server is hosted at: http://ec2-100-24-225-202.compute-1.amazonaws.com
+
+```bash
+curl -X POST \
+  http://ec2-100-24-225-202.compute-1.amazonaws.com/api/user/login \
+  -H 'Content-Type: application/json' \
+  -H 'Postman-Token: 6155812f-3814-4b3f-8af2-d999fb929073' \
+  -H 'cache-control: no-cache' \
+  -d '{
+    "username": "correo@example.com",
+    "password": "12345678"
+}'
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
