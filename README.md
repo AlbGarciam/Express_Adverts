@@ -15,6 +15,7 @@ curl -X POST \
     "username": "correo@example.com",
     "password": "12345678"
 }'
+```
 
 ## Getting Started
 
