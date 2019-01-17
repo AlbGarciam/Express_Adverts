@@ -3,11 +3,11 @@
 
 This is a sample node.js project which connects with a mongoDB database. It uses mongoose to connect the database and the server.
 
-A sample server is hosted at: http://ec2-100-24-225-202.compute-1.amazonaws.com
+A sample server is hosted at: http://ec2-3-85-154-224.compute-1.amazonaws.com (3.85.154.224)
 
 ```bash
 curl -X POST \
-  http://ec2-100-24-225-202.compute-1.amazonaws.com/api/user/login \
+  http://ec2-3-85-154-224.compute-1.amazonaws.com/api/user/login \
   -H 'Content-Type: application/json' \
   -H 'Postman-Token: 6155812f-3814-4b3f-8af2-d999fb929073' \
   -H 'cache-control: no-cache' \
