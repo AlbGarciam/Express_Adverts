@@ -4,6 +4,7 @@
 This is a sample node.js project which connects with a mongoDB database. It uses mongoose to connect the database and the server.
 
 A sample server is hosted at: http://ec2-3-85-154-224.compute-1.amazonaws.com (3.85.154.224)
+static content: http://ec2-3-85-154-224.compute-1.amazonaws.com/images/anuncios/bicicleta.jpg
 
 ```bash
 curl -X POST \
