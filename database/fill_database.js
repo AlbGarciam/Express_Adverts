@@ -1,10 +1,10 @@
 "use strict";
 
 require('dotenv').config();
-require('./database/dbConnection.js');
+require('./dbConnection.js');
 const fs = require('fs');
-const AdvertController = require("./controller/advertController");
-const UserController = require("./controller/userController");
+const AdvertController = require("../controller/advertController");
+const UserController = require("../controller/userController");
 let users = fs.readFileSync('./database/default_users.json', {encoding:'utf8'});
 let adverts = fs.readFileSync('./database/default_adverts.json', {encoding:'utf8'});
 
