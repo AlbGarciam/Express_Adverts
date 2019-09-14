@@ -1,6 +1,7 @@
 "use strict";
 
-require('dotenv').config();
+const path = require('path')
+require('dotenv').config({path: path.resolve(__dirname, '../.env')});
 require('./dbConnection.js');
 const fs = require('fs');
 const AdvertController = require("../controller/advertController");

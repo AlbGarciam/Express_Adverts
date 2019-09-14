@@ -36,17 +36,20 @@ npm install
 ```
 
 Configure the database. Executing this command will start a MongoDB database at port 2703. You can find the entire configuration in [configuration file](https://github.com/AlbGarciam/Express_Adverts/blob/master/etc/mongo.conf)
-```
+```bash
+npm run prepareDB
 npm run db
 ```
 
+Create your own `.env` file, you can base on .env.variables example
+
 Load default values into database
-```
+```bash
 npm run fillDatabase
 ```
 
 Start the cluster
-```
+```bash
 npm run cluster
 ```
 
