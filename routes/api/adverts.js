@@ -8,7 +8,7 @@ const AdvertController = require('../../controller/advertController');
 const { VALIDATION_FAILED } = require('../../models/customErrors');
 const jwtAuthMiddleware = require('../jwt');
 
-router.use( jwtAuthMiddleware() );
+// router.use( jwtAuthMiddleware() );
 
 /**
  * This module is in charge of communicate with Advert database in mongodb

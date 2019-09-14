@@ -17,5 +17,6 @@
 	"SKIP_NUMERIC": "Skip must be numeric",
 	"MISSING_TOKEN": "JWT is not present",
 	"JWT_ALGORITHM is not defined": "JWT_ALGORITHM is not defined",
-	"jwt malformed": "jwt malformed"
+	"jwt malformed": "jwt malformed",
+	"jwt expired": "jwt expired"
 }
