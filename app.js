@@ -39,6 +39,22 @@ app.use(express.static(path.join(__dirname, '/public')));
 app.use('/api/user', require('./routes/api/users'));
 app.use('/api/adverts', require('./routes/api/adverts'));
 
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+
+    // authorized headers for preflight requests
+    // https://developer.mozilla.org/en-US/docs/Glossary/preflight_request
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    next();
+
+    app.options('*', (req, res) => {
+        // allowed XHR methods  
+        res.header('Access-Control-Allow-Methods', 'GET, PATCH, PUT, POST, DELETE, OPTIONS');
+        res.send();
+    });
+});
+
+
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
   const response = {
